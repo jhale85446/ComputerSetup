@@ -1,0 +1,10 @@
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\ComputerSetup\bin\Debug\ComputerSetup.exe.config
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\bin\Debug\ComputerSetup.exe.config
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\bin\Debug\ComputerSetup.exe
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\bin\Debug\ComputerSetup.pdb
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.csprojResolveAssemblyReference.cache
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.Main_Form.resources
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.Properties.Resources.resources
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.csproj.GenerateResource.Cache
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.exe
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.pdb
