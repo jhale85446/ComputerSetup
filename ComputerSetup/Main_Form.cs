@@ -87,7 +87,7 @@ namespace ComputerSetup
             Pop_Apps();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Exit_Button_Click(object sender, EventArgs e)
         {
             this.Close();
         }
@@ -104,33 +104,12 @@ namespace ComputerSetup
 
         private void Link_Go_Click(object sender, EventArgs e)
         {
-            string src;
-            string dest;
-
             Link_Go.Enabled = false;
             Link_Status.Text = "Copying";
             
-            try
-            {
-                foreach (object itemChecked in Link_Box.CheckedItems)
-                {
-                    src = itemChecked.ToString();
-                    dest = Path.Combine(public_desktop, Path.GetFileName(itemChecked.ToString()));
-                    if (!File.Exists(dest))
-                        File.Copy(src, dest);
-                }
-            }
-
-            catch (System.IO.DirectoryNotFoundException)
-            {
-                ErrorBox("Directory Not Found!");
-            }
-
-            catch (System.IO.FileNotFoundException)
-            {
-                ErrorBox("File Not Found!");
-            }
-
+            foreach (object itemChecked in Link_Box.CheckedItems)
+                file_copy(itemChecked.ToString(), public_desktop);
+            
             Link_Status.Text = "Done!";
             Link_Go.Enabled = true;
         }
@@ -163,22 +142,101 @@ namespace ComputerSetup
         {
             App_Status.Text = "Installing...";
             App_Go.Enabled = false;
-            Process proc = new Process();
+            this.WindowState = FormWindowState.Minimized;
+                       
             foreach (object itemChecked in App_Box.CheckedItems)
+                run(itemChecked.ToString());
+            
+            App_Status.Text = "Done";
+            App_Go.Enabled = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private bool Reg_Import(string reg_file)
+        {
+            string arg;
+            if (File.Exists(reg_file))
+            {
+                arg = "/s " + reg_file;
+                Process regeditProcess = Process.Start("regedit.exe", arg);
+                regeditProcess.WaitForExit();
+                return true;
+            }
+            else
+            {
+                ErrorBox("File " + reg_file + " Not Found!");
+                return false;
+            }
+        }
+
+        private bool file_copy(string source, string dest_dir)
+        {
+            if (File.Exists(source) && !File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
             {
                 try
                 {
-                    proc = Process.Start(itemChecked.ToString());
-                    proc.WaitForExit();
+                    File.Copy(source, Path.Combine(dest_dir, Path.GetFileName(source)));
                 }
-                
                 catch
                 {
-                    ErrorBox(itemChecked.ToString() + "Not run!");
+                    ErrorBox("Unable to copy " + source + "!");
+                    return false;
+                }
+                return true;
+            }
+            else if (File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
+                return true;
+            else
+            {
+                ErrorBox("File " + source + " Not Found!");
+                return false;
+            }
+        }
+
+        private bool command(string cmd)
+        {
+            if (cmd != "")
+            {
+                Process proc = new Process();
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+
+                startInfo.FileName = "cmd.exe";
+                startInfo.Arguments = cmd;
+                proc.StartInfo = startInfo;
+                proc.Start();
+                proc.WaitForExit();
+                return true;
+            }
+            else
+            {
+                ErrorBox("Empy Command!");
+                return false;
+            }
+        }
+
+        private bool run(string exe)
+        {
+            if (File.Exists(exe))
+            {
+                try
+                {
+                    Process proc = new Process();
+                    proc = Process.Start(exe);
+                    proc.WaitForExit();
+                    return true;
+                }
+
+                catch
+                {
+                    ErrorBox("Unable to run " + exe + "!");
+                    return false;
                 }
             }
-            App_Status.Text = "Done";
-            App_Go.Enabled = true;
+            else
+            {
+                ErrorBox("File " + exe + "Not Found!");
+                return false;
+            }
         }
     }
 }
