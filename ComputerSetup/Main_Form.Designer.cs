@@ -229,6 +229,8 @@
             // 
             // Output_box
             // 
+            this.Output_box.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.Output_box.ForeColor = System.Drawing.SystemColors.Info;
             this.Output_box.Location = new System.Drawing.Point(6, 19);
             this.Output_box.Name = "Output_box";
             this.Output_box.ReadOnly = true;
@@ -236,7 +238,6 @@
             this.Output_box.Size = new System.Drawing.Size(480, 370);
             this.Output_box.TabIndex = 0;
             this.Output_box.Text = "";
-            this.Output_box.TextChanged += new System.EventHandler(this.Output_box_TextChanged);
             // 
             // Main_Form
             // 
@@ -252,6 +253,7 @@
             this.Controls.Add(this.Exit_Button);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Main_Form";
             this.Text = "Computer Setup";
             this.Load += new System.EventHandler(this.Main_Form_Load);
