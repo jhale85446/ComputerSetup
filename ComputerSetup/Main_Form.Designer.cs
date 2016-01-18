@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Form));
             this.Exit_Button = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.Working_Dir = new System.Windows.Forms.TextBox();
@@ -48,8 +49,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Output_box = new System.Windows.Forms.RichTextBox();
             this.Post_Group_Box = new System.Windows.Forms.GroupBox();
-            this.Post_Box = new System.Windows.Forms.CheckedListBox();
             this.Post_Go = new System.Windows.Forms.Button();
+            this.Post_Box = new System.Windows.Forms.CheckedListBox();
             this.menuStrip1.SuspendLayout();
             this.Basic_Setup_Box.SuspendLayout();
             this.App_Install_Box.SuspendLayout();
@@ -254,15 +255,6 @@
             this.Post_Group_Box.TabStop = false;
             this.Post_Group_Box.Text = "Post Setup Operations";
             // 
-            // Post_Box
-            // 
-            this.Post_Box.FormattingEnabled = true;
-            this.Post_Box.Location = new System.Drawing.Point(8, 17);
-            this.Post_Box.Name = "Post_Box";
-            this.Post_Box.Size = new System.Drawing.Size(502, 94);
-            this.Post_Box.TabIndex = 0;
-            this.Post_Box.MouseLeave += new System.EventHandler(this.Post_Box_MouseLeave);
-            // 
             // Post_Go
             // 
             this.Post_Go.Location = new System.Drawing.Point(516, 17);
@@ -272,6 +264,15 @@
             this.Post_Go.Text = "Go!";
             this.Post_Go.UseVisualStyleBackColor = true;
             this.Post_Go.Click += new System.EventHandler(this.Post_Go_Click);
+            // 
+            // Post_Box
+            // 
+            this.Post_Box.FormattingEnabled = true;
+            this.Post_Box.Location = new System.Drawing.Point(8, 17);
+            this.Post_Box.Name = "Post_Box";
+            this.Post_Box.Size = new System.Drawing.Size(502, 94);
+            this.Post_Box.TabIndex = 0;
+            this.Post_Box.MouseLeave += new System.EventHandler(this.Post_Box_MouseLeave);
             // 
             // Main_Form
             // 
@@ -287,6 +288,7 @@
             this.Controls.Add(this.Working_Dir);
             this.Controls.Add(this.Exit_Button);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Main_Form";

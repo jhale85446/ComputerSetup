@@ -118,12 +118,12 @@ namespace ComputerSetup
                 while ((line = file.ReadLine()) != null)
                     if (line.Substring(0, 1) != "#")
                         Basic_Box.Items.Add(line, true);
-
+                    
                 file.Close();
             }
             catch
             {
-                Output_Line("Error reading " + BASIC_FILENAME);
+                Output_Line("Error reading " + BASIC_FILENAME + ". Make Sure No Empty Lines.");
             }
             Basic_Box_MouseLeave(null, null);
         }
