@@ -47,16 +47,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.Output_box = new System.Windows.Forms.RichTextBox();
+            this.Post_Group_Box = new System.Windows.Forms.GroupBox();
+            this.Post_Box = new System.Windows.Forms.CheckedListBox();
+            this.Post_Go = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.Basic_Setup_Box.SuspendLayout();
             this.App_Install_Box.SuspendLayout();
             this.Link_Setup_Box.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.Post_Group_Box.SuspendLayout();
             this.SuspendLayout();
             // 
             // Exit_Button
             // 
-            this.Exit_Button.Location = new System.Drawing.Point(837, 431);
+            this.Exit_Button.Location = new System.Drawing.Point(837, 558);
             this.Exit_Button.Name = "Exit_Button";
             this.Exit_Button.Size = new System.Drawing.Size(103, 31);
             this.Exit_Button.TabIndex = 0;
@@ -222,7 +226,7 @@
             this.groupBox1.Controls.Add(this.Output_box);
             this.groupBox1.Location = new System.Drawing.Point(655, 30);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(492, 395);
+            this.groupBox1.Size = new System.Drawing.Size(492, 522);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output";
@@ -235,15 +239,46 @@
             this.Output_box.Name = "Output_box";
             this.Output_box.ReadOnly = true;
             this.Output_box.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
-            this.Output_box.Size = new System.Drawing.Size(480, 370);
+            this.Output_box.Size = new System.Drawing.Size(480, 497);
             this.Output_box.TabIndex = 0;
             this.Output_box.Text = "";
+            // 
+            // Post_Group_Box
+            // 
+            this.Post_Group_Box.Controls.Add(this.Post_Go);
+            this.Post_Group_Box.Controls.Add(this.Post_Box);
+            this.Post_Group_Box.Location = new System.Drawing.Point(12, 468);
+            this.Post_Group_Box.Name = "Post_Group_Box";
+            this.Post_Group_Box.Size = new System.Drawing.Size(631, 121);
+            this.Post_Group_Box.TabIndex = 10;
+            this.Post_Group_Box.TabStop = false;
+            this.Post_Group_Box.Text = "Post Setup Operations";
+            // 
+            // Post_Box
+            // 
+            this.Post_Box.FormattingEnabled = true;
+            this.Post_Box.Location = new System.Drawing.Point(8, 17);
+            this.Post_Box.Name = "Post_Box";
+            this.Post_Box.Size = new System.Drawing.Size(502, 94);
+            this.Post_Box.TabIndex = 0;
+            this.Post_Box.MouseLeave += new System.EventHandler(this.Post_Box_MouseLeave);
+            // 
+            // Post_Go
+            // 
+            this.Post_Go.Location = new System.Drawing.Point(516, 17);
+            this.Post_Go.Name = "Post_Go";
+            this.Post_Go.Size = new System.Drawing.Size(109, 51);
+            this.Post_Go.TabIndex = 1;
+            this.Post_Go.Text = "Go!";
+            this.Post_Go.UseVisualStyleBackColor = true;
+            this.Post_Go.Click += new System.EventHandler(this.Post_Go_Click);
             // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1159, 468);
+            this.ClientSize = new System.Drawing.Size(1159, 601);
+            this.Controls.Add(this.Post_Group_Box);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Link_Setup_Box);
@@ -264,6 +299,7 @@
             this.Link_Setup_Box.ResumeLayout(false);
             this.Link_Setup_Box.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.Post_Group_Box.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -290,6 +326,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RichTextBox Output_box;
+        private System.Windows.Forms.GroupBox Post_Group_Box;
+        private System.Windows.Forms.Button Post_Go;
+        private System.Windows.Forms.CheckedListBox Post_Box;
     }
 }
 

@@ -20,6 +20,7 @@ namespace ComputerSetup
         string LINK_PATH = "\\Links";
         string APP_PATH = "\\Applications";
         string BASIC_FILENAME = "basic_setup.txt";
+        string POST_FILENAME = "post_setup.txt";
 
         private void Output_Line(string output)
         {
@@ -127,6 +128,33 @@ namespace ComputerSetup
             Basic_Box_MouseLeave(null, null);
         }
 
+        private void Pop_Post()
+        {
+            string line;
+
+            if (!File.Exists(Path.Combine(CURR_DIR, POST_FILENAME)))
+            {
+                Output_Line(POST_FILENAME + " Not Found!");
+                return;
+            }
+
+            try
+            {
+                StreamReader file = new StreamReader(Path.Combine(CURR_DIR, POST_FILENAME));
+
+                while ((line = file.ReadLine()) != null)
+                    if (line.Substring(0, 1) != "#")
+                        Post_Box.Items.Add(line, true);
+
+                file.Close();
+            }
+            catch
+            {
+                Output_Line("Error reading " + POST_FILENAME);
+            }
+            Post_Box_MouseLeave(null, null);
+        }
+
         public Main_Form()
         {
             InitializeComponent();
@@ -139,6 +167,7 @@ namespace ComputerSetup
             Pop_Basic();
             Pop_Links();
             Pop_Apps();
+            Pop_Post();
         }
 
         private void Exit_Button_Click(object sender, EventArgs e)
@@ -151,26 +180,31 @@ namespace ComputerSetup
             this.Close();
         }
 
+        private bool Run_Encoded_Command(string input)
+        {
+            string[] command;
+            command = Parse_Command(input);
+            if (command[0] == "CMD")
+                return Run_Cmd(command[1]);
+            else if (command[0] == "RUN")
+                return Run_App(CURR_DIR + command[1]);
+            else if (command[0] == "XRUN")
+                return Run_App(command[1]);
+            else if (command[0] == "REG")
+                return Reg_Import(CURR_DIR + command[1]);
+            else if (command[0] == "COPY")
+                 return File_Copy(CURR_DIR + command[1], command[2]);
+            else
+                return false;
+        }
+
         private void Basic_Go_Click(object sender, EventArgs e)
         {            
-            string[] command;
-
             Basic_Go.Enabled = false;
 
             foreach (object item_checked in Basic_Box.CheckedItems)
-            {
-                command = Parse_Command(item_checked.ToString());
-                if (command[0] == "CMD")
-                    Run_Cmd(command[1]);
-                else if (command[0] == "RUN")
-                    Run_App(CURR_DIR + command[1]);
-                else if (command[0] == "REG")
-                    Reg_Import(CURR_DIR + command[1]);
-                else if (command[0] == "COPY")
-                    File_Copy(CURR_DIR + command[1], command[2]);
-                else
+                if (!Run_Encoded_Command(item_checked.ToString()))
                     Output_Line("Unknown: " + item_checked.ToString());
-            }
 
             Basic_Go.Enabled = true;
         }
@@ -324,6 +358,25 @@ namespace ComputerSetup
                 Add_Status("File Not Found!");
                 return false;
             }
+        }
+
+        private void Post_Box_MouseLeave(object sender, EventArgs e)
+        {
+            if (Post_Box.CheckedIndices.Count < 1)
+                Post_Go.Enabled = false;
+            else
+                Post_Go.Enabled = true;
+        }
+
+        private void Post_Go_Click(object sender, EventArgs e)
+        {
+            Post_Go.Enabled = false;
+
+            foreach (object item_checked in Post_Box.CheckedItems)
+                if (!Run_Encoded_Command(item_checked.ToString()))
+                    Output_Line("Unknown: " + item_checked.ToString());
+
+            Post_Go.Enabled = true;
         }
     }
 }
