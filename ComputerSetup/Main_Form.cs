@@ -15,10 +15,10 @@ namespace ComputerSetup
     public partial class Main_Form : Form
     {
         string PUBLIC_DESKTOP = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
-        string CURR_DIR = Directory.GetCurrentDirectory();
-        string LINK_PATH = @"E:\OSSI_Setup\Links";
-        string APP_PATH = @"E:\OSSI_Setup\Applications";
-        string BASIC_PATH = @"E:\OSSI_Setup";
+        //string CURR_DIR = Directory.GetCurrentDirectory();
+        string CURR_DIR = "E:\\OSSI_Setup";
+        string LINK_PATH = "\\Links";
+        string APP_PATH = "\\Applications";
         string BASIC_FILENAME = "basic_setup.txt";
 
         private void Output_Line(string output)
@@ -60,7 +60,7 @@ namespace ComputerSetup
         {
             try
             {
-                string[] files = Directory.GetFiles(LINK_PATH, "*.*");
+                string[] files = Directory.GetFiles(CURR_DIR + LINK_PATH, "*.*");
 
                 foreach (string file in files)
                     Link_Box.Items.Add(file, true);
@@ -78,11 +78,11 @@ namespace ComputerSetup
         {
             try
             {
-                string[] files = Directory.GetFiles(APP_PATH, "*.exe");
+                string[] files = Directory.GetFiles(CURR_DIR + APP_PATH, "*.exe");
                 foreach (string file in files)
                     App_Box.Items.Add(file, true);
 
-                files = Directory.GetFiles(APP_PATH, "*.msi");
+                files = Directory.GetFiles(CURR_DIR + APP_PATH, "*.msi");
                 foreach (string file in files)
                     App_Box.Items.Add(file, true);
             }
@@ -104,7 +104,7 @@ namespace ComputerSetup
         {
             string line;
             
-            if (!File.Exists(Path.Combine(BASIC_PATH, BASIC_FILENAME)))
+            if (!File.Exists(Path.Combine(CURR_DIR, BASIC_FILENAME)))
             {
                 Output_Line(BASIC_FILENAME + " Not Found!");
                 return;
@@ -112,7 +112,7 @@ namespace ComputerSetup
 
             try
             {
-                StreamReader file = new StreamReader(Path.Combine(BASIC_PATH, BASIC_FILENAME));
+                StreamReader file = new StreamReader(Path.Combine(CURR_DIR, BASIC_FILENAME));
 
                 while ((line = file.ReadLine()) != null)
                     if (line.Substring(0, 1) != "#")
@@ -163,11 +163,11 @@ namespace ComputerSetup
                 if (command[0] == "CMD")
                     Run_Cmd(command[1]);
                 else if (command[0] == "RUN")
-                    Run_App(command[1]);
+                    Run_App(CURR_DIR + command[1]);
                 else if (command[0] == "REG")
-                    Reg_Import(command[1]);
+                    Reg_Import(CURR_DIR + command[1]);
                 else if (command[0] == "COPY")
-                    File_Copy(command[1], command[2]);
+                    File_Copy(CURR_DIR + command[1], command[2]);
                 else
                     Output_Line("Unknown: " + item_checked.ToString());
             }
@@ -223,13 +223,11 @@ namespace ComputerSetup
 
         private bool Reg_Import(string reg_file)
         {
-            string arg;
             if (File.Exists(reg_file))
             {
-                Output_Line("Adding: " + Path.GetFileName(reg_file) + " to registry");
-                arg = "/s " + reg_file;
-                Process regeditProcess = Process.Start("regedit.exe", arg);
-                regeditProcess.WaitForExit();
+                Output_Line("Adding: " + reg_file + " to registry");
+                Process reg_process = Process.Start("reg.exe", "IMPORT " + reg_file);
+                reg_process.WaitForExit();
                 Add_Status("Done.");
                 return true;
             }
