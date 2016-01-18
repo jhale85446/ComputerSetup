@@ -152,7 +152,7 @@ namespace ComputerSetup
         }
 
         private void Basic_Go_Click(object sender, EventArgs e)
-        {
+        {            
             string[] command;
 
             Basic_Go.Enabled = false;
@@ -212,13 +212,11 @@ namespace ComputerSetup
         private void App_Go_Click(object sender, EventArgs e)
         {
             App_Go.Enabled = false;
-            this.WindowState = FormWindowState.Minimized;
-                       
+                                   
             foreach (object item_checked in App_Box.CheckedItems)
                 Run_App(item_checked.ToString());
             
             App_Go.Enabled = true;
-            this.WindowState = FormWindowState.Normal;
         }
 
         private bool Reg_Import(string reg_file)
@@ -226,7 +224,12 @@ namespace ComputerSetup
             if (File.Exists(reg_file))
             {
                 Output_Line("Adding: " + reg_file + " to registry");
-                Process reg_process = Process.Start("reg.exe", "IMPORT " + reg_file);
+                if (Path.GetExtension(reg_file) != ".reg")
+                {
+                    Add_Status("Incorrect File Type!");
+                    return false;
+                }
+                Process reg_process = Process.Start("regedit.exe", "/S " + reg_file);
                 reg_process.WaitForExit();
                 Add_Status("Done.");
                 return true;
@@ -301,9 +304,11 @@ namespace ComputerSetup
             {
                 try
                 {
+                    this.WindowState = FormWindowState.Minimized;
                     Process proc = new Process();
                     proc = Process.Start(exe);
                     proc.WaitForExit();
+                    this.WindowState = FormWindowState.Normal;
                     Add_Status("Done.");
                     return true;
                 }
