@@ -19,6 +19,31 @@ namespace ComputerSetup
         string link_path = @"E:\OSSI_Setup\Links";
         string app_path = @"E:\OSSI_Setup\Applications";
 
+        private void OutputLine(string output)
+        {
+            string time = System.DateTime.Now.TimeOfDay.Hours.ToString("00") + ":";
+            time = time + System.DateTime.Now.TimeOfDay.Minutes.ToString("00") + ":";
+            time = time + System.DateTime.Now.TimeOfDay.Seconds.ToString("00");
+            output = "(" + time + ") " + output + "\n\n";
+            Output_box.Text = Output_box.Text.Insert(0, output);
+        }
+
+        private void AddStatus(string status)
+        {
+            string[] lines = Output_box.Lines;
+            lines[0] = lines[0] + "  -  " + status;
+            Output_box.Lines = lines;
+            //Output_box.Text = Output_box.Text + "  -  " + status;
+        }
+
+        private void AddCmdOuput(string CmdOuput, string Cmd)
+        {
+            string divider = "****************************************************************************************************************";
+            string[] lines = Output_box.Lines;
+            CmdOuput = divider + Environment.NewLine + "> " + Cmd + Environment.NewLine + CmdOuput + divider;
+            Output_box.Text = Output_box.Text.Insert(lines[0].Length + 1, CmdOuput);
+        }
+
         private void ErrorBox(string message)
         {
             String caption = "Error";
@@ -70,7 +95,7 @@ namespace ComputerSetup
 
         private void Pop_Basic()
         {
-            Basic_Box_MouseLeave(null, null);
+            //Basic_Box_MouseLeave(null, null);
         }
 
         public Main_Form()
@@ -97,20 +122,18 @@ namespace ComputerSetup
             this.Close();
         }
 
-        private void Basic_Button_Click(object sender, EventArgs e)
+        private void Basic_Go_Click(object sender, EventArgs e)
         {
-            
+            command("route print");
         }
 
         private void Link_Go_Click(object sender, EventArgs e)
         {
             Link_Go.Enabled = false;
-            Link_Status.Text = "Copying";
-            
+                      
             foreach (object itemChecked in Link_Box.CheckedItems)
                 file_copy(itemChecked.ToString(), public_desktop);
             
-            Link_Status.Text = "Done!";
             Link_Go.Enabled = true;
         }
 
@@ -132,22 +155,20 @@ namespace ComputerSetup
 
         private void Basic_Box_MouseLeave(object sender, EventArgs e)
         {
-            if (Basic_Box.CheckedIndices.Count < 1)
-                Basic_Go.Enabled = false;
-            else
-                Basic_Go.Enabled = true;
+            //if (Basic_Box.CheckedIndices.Count < 1)
+                //Basic_Go.Enabled = false;
+            //else
+                //Basic_Go.Enabled = true;
         }
 
         private void App_Go_Click(object sender, EventArgs e)
         {
-            App_Status.Text = "Installing...";
             App_Go.Enabled = false;
             this.WindowState = FormWindowState.Minimized;
                        
             foreach (object itemChecked in App_Box.CheckedItems)
                 run(itemChecked.ToString());
             
-            App_Status.Text = "Done";
             App_Go.Enabled = true;
             this.WindowState = FormWindowState.Normal;
         }
@@ -157,65 +178,79 @@ namespace ComputerSetup
             string arg;
             if (File.Exists(reg_file))
             {
+                OutputLine("Adding: " + Path.GetFileName(reg_file) + " to registry");
                 arg = "/s " + reg_file;
                 Process regeditProcess = Process.Start("regedit.exe", arg);
                 regeditProcess.WaitForExit();
+                AddStatus("Done.");
                 return true;
             }
             else
             {
-                ErrorBox("File " + reg_file + " Not Found!");
+                OutputLine("File " + reg_file + " Not Found!");
                 return false;
             }
         }
 
         private bool file_copy(string source, string dest_dir)
         {
+            OutputLine("Copying: " + Path.GetFileName(source) + " -> " + dest_dir);
             if (File.Exists(source) && !File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
             {
                 try
                 {
                     File.Copy(source, Path.Combine(dest_dir, Path.GetFileName(source)));
+                    if (File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
+                        AddStatus("Done.");
                 }
                 catch
                 {
-                    ErrorBox("Unable to copy " + source + "!");
+                    AddStatus("Unable to copy!");
                     return false;
                 }
                 return true;
             }
             else if (File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
+            {
+                AddStatus("Alreay Exists.");
                 return true;
+            }
             else
             {
-                ErrorBox("File " + source + " Not Found!");
+                AddStatus("File Not Found!");
                 return false;
             }
         }
 
         private bool command(string cmd)
         {
+            OutputLine("Executing: " + cmd);
             if (cmd != "")
             {
                 Process proc = new Process();
                 ProcessStartInfo startInfo = new ProcessStartInfo();
 
+                startInfo.UseShellExecute = false;
                 startInfo.FileName = "cmd.exe";
-                startInfo.Arguments = cmd;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.CreateNoWindow = false;
+                startInfo.Arguments = "/C " + cmd;
                 proc.StartInfo = startInfo;
                 proc.Start();
+                AddCmdOuput(proc.StandardOutput.ReadToEnd(), cmd);
                 proc.WaitForExit();
                 return true;
             }
             else
             {
-                ErrorBox("Empy Command!");
+                AddStatus("Empy Command!");
                 return false;
             }
         }
 
         private bool run(string exe)
         {
+            OutputLine("Running: " + Path.GetFileName(exe));
             if (File.Exists(exe))
             {
                 try
@@ -223,20 +258,26 @@ namespace ComputerSetup
                     Process proc = new Process();
                     proc = Process.Start(exe);
                     proc.WaitForExit();
+                    AddStatus("Done.");
                     return true;
                 }
 
                 catch
                 {
-                    ErrorBox("Unable to run " + exe + "!");
+                    AddStatus("Unable to run!");
                     return false;
                 }
             }
             else
             {
-                ErrorBox("File " + exe + "Not Found!");
+                AddStatus("File Not Found!");
                 return false;
             }
+        }
+
+        private void Output_box_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
