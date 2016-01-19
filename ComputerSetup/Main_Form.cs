@@ -15,8 +15,8 @@ namespace ComputerSetup
     public partial class Main_Form : Form
     {
         string PUBLIC_DESKTOP = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
-        //string CURR_DIR = Directory.GetCurrentDirectory();
-        string CURR_DIR = "E:\\OSSI_Setup";
+        string CURR_DIR = Directory.GetCurrentDirectory();
+        //string CURR_DIR = "E:\\OSSI_Setup";
         string LINK_PATH = "\\Links";
         string APP_PATH = "\\Applications";
         string BASIC_FILENAME = "basic_setup.txt";
