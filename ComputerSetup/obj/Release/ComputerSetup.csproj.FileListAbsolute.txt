@@ -7,3 +7,6 @@ C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\Computer
 C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.csproj.GenerateResource.Cache
 C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.exe
 C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.pdb
+C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\bin\Release\ComputerSetup.exe.config
+C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.exe
+C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.pdb
