@@ -1,0 +1,26 @@
+# This is the basic setup text file
+#
+# The valid commands are:
+#
+# CMD - Run a command through Windows command shell
+# Usage: CMD;'System Command'
+# Example: CMD;ipconfig
+#
+# COPY - Copy a file
+# Usage: COPY;'Source File';'Destination Directory'
+# Example: COPY;\Files\text.txt;C:\Windows
+#
+# RUN - Run an application in the working director
+# Usage: RUN;'Program'
+# RUN;\Files\putty.exe
+#
+# XRUN - Run an External application
+# Usage: XRUN;'Program'
+# XRUN;C:\Windows\regedit.exe
+#
+# REG - Add a registry file to the local registry
+# Usage: REG;'Registry file'
+# REG;\Files\ODBC.reg
+#
+# Do not use empty lines.
+#

@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_Form));
             this.Exit_Button = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.desktop_path_box = new System.Windows.Forms.TextBox();
             this.Working_Dir = new System.Windows.Forms.TextBox();
             this.Basic_Box = new System.Windows.Forms.CheckedListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -51,6 +51,9 @@
             this.Post_Group_Box = new System.Windows.Forms.GroupBox();
             this.Post_Go = new System.Windows.Forms.Button();
             this.Post_Box = new System.Windows.Forms.CheckedListBox();
+            this.change_dir_button = new System.Windows.Forms.Button();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.Basic_Setup_Box.SuspendLayout();
             this.App_Install_Box.SuspendLayout();
@@ -69,19 +72,19 @@
             this.Exit_Button.UseVisualStyleBackColor = true;
             this.Exit_Button.Click += new System.EventHandler(this.Exit_Button_Click);
             // 
-            // textBox1
+            // desktop_path_box
             // 
-            this.textBox1.Location = new System.Drawing.Point(119, 19);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(391, 20);
-            this.textBox1.TabIndex = 1;
+            this.desktop_path_box.Location = new System.Drawing.Point(119, 19);
+            this.desktop_path_box.Name = "desktop_path_box";
+            this.desktop_path_box.ReadOnly = true;
+            this.desktop_path_box.Size = new System.Drawing.Size(391, 20);
+            this.desktop_path_box.TabIndex = 1;
             // 
             // Working_Dir
             // 
             this.Working_Dir.Location = new System.Drawing.Point(101, 27);
             this.Working_Dir.Name = "Working_Dir";
-            this.Working_Dir.Size = new System.Drawing.Size(542, 20);
+            this.Working_Dir.Size = new System.Drawing.Size(467, 20);
             this.Working_Dir.TabIndex = 2;
             // 
             // Basic_Box
@@ -107,6 +110,8 @@
             // programToolStripMenuItem
             // 
             this.programToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.toolStripSeparator1,
             this.exitToolStripMenuItem});
             this.programToolStripMenuItem.Name = "programToolStripMenuItem";
             this.programToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
@@ -115,7 +120,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -176,7 +181,7 @@
             this.Link_Setup_Box.Controls.Add(this.Link_Go);
             this.Link_Setup_Box.Controls.Add(this.label1);
             this.Link_Setup_Box.Controls.Add(this.Link_Box);
-            this.Link_Setup_Box.Controls.Add(this.textBox1);
+            this.Link_Setup_Box.Controls.Add(this.desktop_path_box);
             this.Link_Setup_Box.Location = new System.Drawing.Point(12, 310);
             this.Link_Setup_Box.Name = "Link_Setup_Box";
             this.Link_Setup_Box.Size = new System.Drawing.Size(637, 152);
@@ -274,18 +279,41 @@
             this.Post_Box.TabIndex = 0;
             this.Post_Box.MouseLeave += new System.EventHandler(this.Post_Box_MouseLeave);
             // 
+            // change_dir_button
+            // 
+            this.change_dir_button.Location = new System.Drawing.Point(574, 25);
+            this.change_dir_button.Name = "change_dir_button";
+            this.change_dir_button.Size = new System.Drawing.Size(75, 23);
+            this.change_dir_button.TabIndex = 11;
+            this.change_dir_button.Text = "Change";
+            this.change_dir_button.UseVisualStyleBackColor = true;
+            this.change_dir_button.Click += new System.EventHandler(this.change_dir_button_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1159, 601);
+            this.Controls.Add(this.change_dir_button);
+            this.Controls.Add(this.Working_Dir);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.Post_Group_Box);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.Link_Setup_Box);
             this.Controls.Add(this.App_Install_Box);
             this.Controls.Add(this.Basic_Setup_Box);
-            this.Controls.Add(this.Working_Dir);
             this.Controls.Add(this.Exit_Button);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -310,7 +338,7 @@
         #endregion
 
         private System.Windows.Forms.Button Exit_Button;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox desktop_path_box;
         private System.Windows.Forms.TextBox Working_Dir;
         private System.Windows.Forms.CheckedListBox Basic_Box;
         private System.Windows.Forms.MenuStrip menuStrip1;
@@ -331,6 +359,9 @@
         private System.Windows.Forms.GroupBox Post_Group_Box;
         private System.Windows.Forms.Button Post_Go;
         private System.Windows.Forms.CheckedListBox Post_Box;
+        private System.Windows.Forms.Button change_dir_button;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
 

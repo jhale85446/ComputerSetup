@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using Standard;
 
 namespace ComputerSetup
 {
@@ -20,6 +21,7 @@ namespace ComputerSetup
         string APP_PATH = "\\Applications";
         string BASIC_FILENAME = "basic_setup.txt";
         string POST_FILENAME = "post_setup.txt";
+        about_form about;
 
         private void Output_Line(string output)
         {
@@ -46,16 +48,6 @@ namespace ComputerSetup
             Output_box.Text = Output_box.Text.Insert(lines[0].Length + 1, cmd_ouput);
         }
 
-        private void Error_Box(string message)
-        {
-            String caption = "Error";
-            MessageBoxButtons buttons = MessageBoxButtons.OK;
-            MessageBoxIcon icon = MessageBoxIcon.Error;
-            MessageBoxDefaultButton dflt = MessageBoxDefaultButton.Button1;
-
-            MessageBox.Show(message, caption, buttons, icon, dflt);
-        } // Shows an Error box
-
         private void Pop_Links()
         {
             try
@@ -68,7 +60,7 @@ namespace ComputerSetup
 
             catch (System.IO.DirectoryNotFoundException)
             {
-                Output_Line("Directory Not Found!");
+                Output_Line("Links Directory Not Found!");
             }
 
             Link_Box_MouseLeave(null, null);
@@ -89,7 +81,7 @@ namespace ComputerSetup
 
             catch (System.IO.DirectoryNotFoundException)
             {
-                Error_Box("Directory Not Found!");
+                Output_Line("Applications Directory Not Found!");
             }
             App_Box_MouseLeave(null, null);
         }
@@ -107,6 +99,7 @@ namespace ComputerSetup
             if (!File.Exists(Path.Combine(CURR_DIR, BASIC_FILENAME)))
             {
                 Output_Line(BASIC_FILENAME + " Not Found!");
+                Basic_Box_MouseLeave(null, null);
                 return;
             }
 
@@ -134,6 +127,7 @@ namespace ComputerSetup
             if (!File.Exists(Path.Combine(CURR_DIR, POST_FILENAME)))
             {
                 Output_Line(POST_FILENAME + " Not Found!");
+                Post_Box_MouseLeave(null, null);
                 return;
             }
 
@@ -161,7 +155,9 @@ namespace ComputerSetup
 
         private void Main_Form_Load(object sender, EventArgs e)
         {
-            textBox1.Text = PUBLIC_DESKTOP;
+            about = new about_form();
+            Output_box.Clear();
+            desktop_path_box.Text = PUBLIC_DESKTOP;
             Working_Dir.Text = CURR_DIR;
             Pop_Basic();
             Pop_Links();
@@ -376,6 +372,22 @@ namespace ComputerSetup
                     Output_Line("Unknown: " + item_checked.ToString());
 
             Post_Go.Enabled = true;
+        }
+
+        private void change_dir_button_Click(object sender, EventArgs e)
+        {
+            string new_path;
+            if (Standard.Procedures.path_box(out new_path, "Select New Working Directory"))
+            {
+                CURR_DIR = new_path;
+                Main_Form_Load(null, null);
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            about.Show();
+            about.Activate();
         }
     }
 }
