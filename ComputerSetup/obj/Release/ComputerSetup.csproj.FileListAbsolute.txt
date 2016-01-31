@@ -17,3 +17,4 @@ C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerS
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.Properties.Resources.resources
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.csproj.GenerateResource.Cache
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.about_form.resources
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Release\ComputerSetup.about_form.resources

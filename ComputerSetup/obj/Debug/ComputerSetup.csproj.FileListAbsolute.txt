@@ -18,3 +18,4 @@ C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSet
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.Properties.Resources.resources
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.csproj.GenerateResource.Cache
 C:\Users\Josh\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.about_form.resources
+C:\Users\jhale\Documents\GitHub\ComputerSetup\ComputerSetup\obj\Debug\ComputerSetup.about_form.resources

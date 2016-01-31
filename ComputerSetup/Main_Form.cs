@@ -175,6 +175,22 @@ namespace ComputerSetup
             this.Close();
         }
 
+        private string Parse_External_Path(string input)
+        {
+            string part_path;
+            
+            if (!input.Contains("&WORKDIR&"))
+                return input;
+            else
+            {
+                part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
+                if (!part_path.StartsWith("\\"))
+                    part_path = "\\" + part_path;
+
+                return (CURR_DIR + part_path);
+            }
+        }
+
         private bool Run_Encoded_Command(string input)
         {
             string[] command;
@@ -184,11 +200,11 @@ namespace ComputerSetup
             else if (command[0] == "RUN")
                 return Run_App(CURR_DIR + command[1]);
             else if (command[0] == "XRUN")
-                return Run_App(command[1]);
+                return Run_App(Parse_External_Path(command[1]));
             else if (command[0] == "REG")
                 return Reg_Import(CURR_DIR + command[1]);
             else if (command[0] == "COPY")
-                 return File_Copy(CURR_DIR + command[1], command[2]);
+                return File_Copy(CURR_DIR + command[1], command[2]);
             else
                 return false;
         }

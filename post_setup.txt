@@ -17,6 +17,8 @@
 # XRUN - Run an External application
 # Usage: XRUN;'Program'
 # XRUN;C:\Windows\regedit.exe
+# In XRUN, You can use &WORKDIR& as a pointer to the current working directory.
+# Example: XRUN;&WORKDIR&\SetupFiles\setup.exe
 #
 # REG - Add a registry file to the local registry
 # Usage: REG;'Registry file'
