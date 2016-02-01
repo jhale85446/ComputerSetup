@@ -9,10 +9,5 @@ get different options, laptops are different than desktops, etc.
 
 I hope that others can get as much use out of this little applicaiton as I have.
 
-## Requirements
-This application requires .NET 4.5.1. Most computers running Windows 7 or later will have this already installed.
-If not you can download it from [Microsoft's .NET 4.5.1 Page](https://www.microsoft.com/en-us/download/details.aspx?id=40779).
-You are welcome to change the target version of .NET yourself if you download the source code and open it in Visual Studio.
-
 ## Instructions
-Coming soon!
+Visit the [ComputerSetup Wiki Page](https://github.com/jhale85446/ComputerSetup/wiki) for download and usage instructions.
