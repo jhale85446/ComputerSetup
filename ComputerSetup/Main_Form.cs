@@ -20,6 +20,7 @@ namespace ComputerSetup
         string CURR_DIR_ROOT = Path.GetPathRoot(Directory.GetCurrentDirectory());
         string LINK_PATH = "\\Links";
         string APP_PATH = "\\Applications";
+        string FILES_PATH = "\\Files";
         string BASIC_FILENAME = "basic_setup.txt";
         string POST_FILENAME = "post_setup.txt";
         about_form about;
@@ -449,6 +450,21 @@ namespace ComputerSetup
                     catch
                     {
                         Standard.Procedures.error_box("Unable to create Links directory!");
+                    }
+                }
+            }
+
+            if (!Directory.Exists(CURR_DIR + FILES_PATH))
+            {
+                if (Standard.Procedures.question_box_yes_no("Files Directory Missing. Shall I Make One?", "Missing Directory"))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(CURR_DIR + FILES_PATH);
+                    }
+                    catch
+                    {
+                        Standard.Procedures.error_box("Unable to create Files directory!");
                     }
                 }
             }
