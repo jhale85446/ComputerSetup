@@ -17,6 +17,7 @@ namespace ComputerSetup
     {
         string PUBLIC_DESKTOP = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
         string CURR_DIR = Directory.GetCurrentDirectory();
+        string CURR_DIR_ROOT = Path.GetPathRoot(Directory.GetCurrentDirectory());
         string LINK_PATH = "\\Links";
         string APP_PATH = "\\Applications";
         string BASIC_FILENAME = "basic_setup.txt";
@@ -178,17 +179,29 @@ namespace ComputerSetup
         private string Parse_External_Path(string input)
         {
             string part_path;
-            
-            if (!input.Contains("&WORKDIR&"))
-                return input;
-            else
+
+            if (input.Contains("&WORKDIR&"))
             {
                 part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
+
                 if (!part_path.StartsWith("\\"))
                     part_path = "\\" + part_path;
 
                 return (CURR_DIR + part_path);
             }
+
+            else if (input.Contains("&WORKDRIVE&"))
+            {
+                part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
+
+                if (!part_path.StartsWith("\\"))
+                    part_path = "\\" + part_path;
+
+                return(CURR_DIR_ROOT.TrimEnd('\\') + part_path);
+            }
+
+            else
+                return input;
         }
 
         private bool Run_Encoded_Command(string input)
@@ -215,7 +228,7 @@ namespace ComputerSetup
 
             foreach (object item_checked in Basic_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line("Unknown: " + item_checked.ToString());
+                    Output_Line(item_checked.ToString());
 
             Basic_Go.Enabled = true;
         }
@@ -385,7 +398,7 @@ namespace ComputerSetup
 
             foreach (object item_checked in Post_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line("Unknown: " + item_checked.ToString());
+                    Output_Line(item_checked.ToString());
 
             Post_Go.Enabled = true;
         }
@@ -396,6 +409,7 @@ namespace ComputerSetup
             if (Standard.Procedures.path_box(out new_path, "Select New Working Directory"))
             {
                 CURR_DIR = new_path;
+                CURR_DIR_ROOT = Path.GetPathRoot(CURR_DIR);
                 Main_Form_Load(null, null);
             }
         }
