@@ -182,17 +182,7 @@ namespace ComputerSetup
         {
             string part_path;
 
-            if (input.Contains("&WORKDIR&"))
-            {
-                part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
-
-                if (!part_path.StartsWith("\\"))
-                    part_path = "\\" + part_path;
-
-                return (CURR_DIR + part_path);
-            }
-
-            else if (input.Contains("&WORKDRIVE&"))
+            if (input.Contains("&WORKDRIVE&"))
             {
                 part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
 
@@ -220,6 +210,8 @@ namespace ComputerSetup
                 return Reg_Import(CURR_DIR + command[1]);
             else if (command[0] == "COPY")
                 return File_Copy(CURR_DIR + command[1], command[2]);
+            else if (command[0] == "XCOPY")
+                return File_Copy(Parse_External_Path(command[1]), command[2]);
             else
                 return false;
         }
@@ -503,7 +495,7 @@ namespace ComputerSetup
         private string [] Setup_Text()
         {
             string[] text = new string[30];
-            text[0] = "# This is the basic setup text file";
+            text[0] = "# This is a ComputerSetup basic or post setup text file";
             text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
             text[2] = "# The valid commands are:";
             text[3] = "#";
@@ -511,22 +503,22 @@ namespace ComputerSetup
             text[5] = "# Usage: CMD;'System Command'";
             text[6] = "# Example: CMD;ipconfig";
             text[7] = "#";
-            text[8] = "# COPY - Copy a file";
+            text[8] = "# COPY - Copy a file with the working directory as a base";
             text[9] = "# Usage: COPY;'Source File';'Destination Directory'";
             text[10] = "# Example: COPY;\\Files\\text.txt;C:\\Windows";
             text[11] = "#";
-            text[12] = "# RUN - Run an application in the working director";
+            text[12] = "# RUN - Run an application with the working directory as a base";
             text[13] = "# Usage: RUN;'Program'";
             text[14] = "# Example RUN;\\Files\\putty.exe";
             text[15] = "#";
-            text[16] = "# XRUN - Run an External application";
-            text[17] = "# Usage: XRUN;'Program'";
-            text[18] = "# Example: XRUN;C:\\Windows\\regedit.exe";
-            text[19] = "# In XRUN, You can use &WORKDIR& as a pointer to the current working directory.";
-            text[20] = "# You can also use &WORKDRIVE& as a pointer to the root drive of the working directory.";
-            text[21] = "# Example: XRUN;&WORKDIR&\\SetupFiles\\setup.exe";
+            text[16] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
+            text[17] = "# Example: XRUN;C:\\Windows\\regedit.exe";
+            text[18] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
+            text[19] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
+            text[20] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
+            text[21] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
             text[22] = "#";
-            text[23] = "# REG - Add a registry file to the local registry";
+            text[23] = "# REG - Add a registry file to the local registry using the working directory as a base";
             text[24] = "# Usage: REG;'Registry file'";
             text[25] = "# Example: REG;\\Files\\ODBC.reg";
             text[26] = "#";
