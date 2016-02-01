@@ -156,6 +156,7 @@ namespace ComputerSetup
 
         private void Main_Form_Load(object sender, EventArgs e)
         {
+            Check_File_System();
             about = new about_form();
             Output_box.Clear();
             desktop_path_box.Text = PUBLIC_DESKTOP;
@@ -418,6 +419,105 @@ namespace ComputerSetup
         {
             about.Show();
             about.Activate();
+        }
+
+        private void Check_File_System()
+        {
+            if (!Directory.Exists(CURR_DIR + APP_PATH))
+            {
+                if (Standard.Procedures.question_box_yes_no("Application Directory Missing. Shall I Make One?", "Missing Directory"))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(CURR_DIR + APP_PATH);
+                    }
+                    catch
+                    {
+                        Standard.Procedures.error_box("Unable to create Application directory!");
+                    }
+                }
+            }
+
+            if (!Directory.Exists(CURR_DIR + LINK_PATH))
+            {
+                if (Standard.Procedures.question_box_yes_no("Links Directory Missing. Shall I Make One?", "Missing Directory"))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(CURR_DIR + LINK_PATH);
+                    }
+                    catch
+                    {
+                        Standard.Procedures.error_box("Unable to create Links directory!");
+                    }
+                }
+            }
+
+            if (!File.Exists(Path.Combine(CURR_DIR, BASIC_FILENAME)))
+            {
+                if (Standard.Procedures.question_box_yes_no("basic_setup.txt is missing. Shall I Make One?", "Missing File"))
+                {
+                    try
+                    {
+                        File.WriteAllLines(Path.Combine(CURR_DIR, BASIC_FILENAME), Setup_Text());
+                    }
+                    catch
+                    {
+                        Standard.Procedures.error_box("Unable to create basic_setup.txt!");
+                    }
+                }
+            }
+
+            if (!File.Exists(Path.Combine(CURR_DIR, POST_FILENAME)))
+            {
+                if (Standard.Procedures.question_box_yes_no("post_setup.txt is missing. Shall I Make One?", "Missing file"))
+                {
+                    try
+                    {
+                        File.WriteAllLines(Path.Combine(CURR_DIR, POST_FILENAME), Setup_Text());
+                    }
+                    catch
+                    {
+                        Standard.Procedures.error_box("Unable to create post_setup.txt!");
+                    }
+                }
+            }
+        }
+
+        private string [] Setup_Text()
+        {
+            string[] text = new string[30];
+            text[0] = "# This is the basic setup text file";
+            text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
+            text[2] = "# The valid commands are:";
+            text[3] = "#";
+            text[4] = "# CMD - Run a command through Windows command shell";
+            text[5] = "# Usage: CMD;'System Command'";
+            text[6] = "# Example: CMD;ipconfig";
+            text[7] = "#";
+            text[8] = "# COPY - Copy a file";
+            text[9] = "# Usage: COPY;'Source File';'Destination Directory'";
+            text[10] = "# Example: COPY;\\Files\\text.txt;C:\\Windows";
+            text[11] = "#";
+            text[12] = "# RUN - Run an application in the working director";
+            text[13] = "# Usage: RUN;'Program'";
+            text[14] = "# Example RUN;\\Files\\putty.exe";
+            text[15] = "#";
+            text[16] = "# XRUN - Run an External application";
+            text[17] = "# Usage: XRUN;'Program'";
+            text[18] = "# Example: XRUN;C:\\Windows\\regedit.exe";
+            text[19] = "# In XRUN, You can use &WORKDIR& as a pointer to the current working directory.";
+            text[20] = "# You can also use &WORKDRIVE& as a pointer to the root drive of the working directory.";
+            text[21] = "# Example: XRUN;&WORKDIR&\\SetupFiles\\setup.exe";
+            text[22] = "#";
+            text[23] = "# REG - Add a registry file to the local registry";
+            text[24] = "# Usage: REG;'Registry file'";
+            text[25] = "# Example: REG;\\Files\\ODBC.reg";
+            text[26] = "#";
+            text[27] = "# For more information visit the wiki page at:";
+            text[28] = "# https://github.com/jhale85446/ComputerSetup/wiki";
+            text[29] = "#";
+            return text;
         }
     }
 }
