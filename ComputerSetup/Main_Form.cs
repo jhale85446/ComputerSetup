@@ -296,7 +296,7 @@ namespace ComputerSetup
         private bool File_Copy(string source, string dest_dir)
         {
             Output_Line("Copying: " + Path.GetFileName(source) + " -> " + dest_dir);
-            if (File.Exists(source) && !File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
+            if (File.Exists(source))
             {
                 try
                 {
@@ -309,11 +309,6 @@ namespace ComputerSetup
                     Add_Status("Unable to copy!");
                     return false;
                 }
-                return true;
-            }
-            else if (File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
-            {
-                Add_Status("Alreay Exists.");
                 return true;
             }
             else
