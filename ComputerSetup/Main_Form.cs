@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 using System.Diagnostics;
 using Standard;
 
@@ -39,7 +40,22 @@ namespace ComputerSetup
             string[] lines = Output_box.Lines;
             lines[0] = lines[0] + "  -  " + status;
             Output_box.Lines = lines;
-            //Output_box.Text = Output_box.Text + "  -  " + status;
+        }
+
+        // This function updates the status.
+        // Useful for download indicator
+        private void Update_Status(string status)
+        {
+            string[] lines = Output_box.Lines;
+            if (lines[0].Contains("  -  "))
+            {
+                int dash = lines[0].IndexOf("  -  ");
+                string temp = lines[0].Substring(0, dash);
+                lines[0] = temp + "  -  " + status;
+                Output_box.Lines = lines;
+            }
+            else
+                Add_Status(status);            
         }
 
         private void Add_Cmd_Ouput(string cmd_ouput, string cmd)
@@ -212,6 +228,11 @@ namespace ComputerSetup
                 return File_Copy(CURR_DIR + command[1], command[2]);
             else if (command[0] == "XCOPY")
                 return File_Copy(Parse_External_Path(command[1]), command[2]);
+            else if (command[0] == "DOWNLOAD")
+            {
+                bool result = Download_File(command[1], command[2]);
+                return Check_Downloaded_File(command[2]) && result;
+            }
             else
                 return false;
         }
@@ -369,6 +390,62 @@ namespace ComputerSetup
             else
             {
                 Add_Status("File Not Found!");
+                return false;
+            }
+        }
+
+        private bool downloadComplete = false;
+
+        private bool Download_File(string source, string dest_file)
+        {
+            Output_Line("Downloading: " + source + " -> " + dest_file);
+            Output_Line("Status: ");
+            WebClient web_client = new WebClient();
+            web_client.DownloadProgressChanged += web_client_DownloadProgressChanged;
+            web_client.DownloadFileCompleted += web_client_DownloadFileCompleted;
+            try
+            {
+                web_client.DownloadFileAsync(new System.Uri(source), dest_file);
+                //web_client.DownloadFile(source, dest_file);
+                while (!downloadComplete)
+                {
+                    Application.DoEvents();
+                }
+
+                downloadComplete = false;
+            }
+            catch
+            {
+                Add_Status("Unable to Download!");
+                return false;
+            }
+            return true;
+        }
+
+        void web_client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            this.BeginInvoke((MethodInvoker)delegate
+            {
+                downloadComplete = true;
+            });            
+        }
+
+        private void web_client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            
+            Update_Status(e.ProgressPercentage.ToString());
+        }
+
+        private bool Check_Downloaded_File(string dest_file)
+        {
+            if (File.Exists(dest_file))
+            {
+                Add_Status("Done.");
+                return true;
+            }
+            else
+            {
+                Add_Status("Download Failed!");
                 return false;
             }
         }
