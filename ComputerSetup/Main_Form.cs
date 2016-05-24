@@ -243,7 +243,7 @@ namespace ComputerSetup
 
             foreach (object item_checked in Basic_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line(item_checked.ToString());
+                    Output_Line(item_checked.ToString() + " - FAILED!");
 
             Basic_Go.Enabled = true;
         }
@@ -399,14 +399,22 @@ namespace ComputerSetup
         private bool Download_File(string source, string dest_file)
         {
             Output_Line("Downloading: " + source + " -> " + dest_file);
-            Output_Line("Status: ");
+            Output_Line("Download Status: ");
+
+            if (!check_download_path(source))
+            {
+                Add_Status("Link Does Not Exist!");
+                return false;
+            }
+            
             WebClient web_client = new WebClient();
             web_client.DownloadProgressChanged += web_client_DownloadProgressChanged;
             web_client.DownloadFileCompleted += web_client_DownloadFileCompleted;
+
             try
             {
                 web_client.DownloadFileAsync(new System.Uri(source), dest_file);
-                //web_client.DownloadFile(source, dest_file);
+                
                 while (!downloadComplete)
                 {
                     Application.DoEvents();
@@ -417,30 +425,58 @@ namespace ComputerSetup
             catch
             {
                 Add_Status("Unable to Download!");
+
                 return false;
             }
             return true;
         }
 
-        void web_client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        private bool check_download_path(string source)
+        {
+            HttpWebResponse response = null;
+            var request = (HttpWebRequest)WebRequest.Create(new System.Uri(source));
+            request.Method = "HEAD";
+            bool result = false;
+            
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch
+            {
+                result = false;
+            }
+            finally
+            {
+                // Don't forget to close your response.
+                if (response != null)
+                {
+                    response.Close();
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private void web_client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             this.BeginInvoke((MethodInvoker)delegate
             {
+                Add_Status("Done");
                 downloadComplete = true;
             });            
         }
 
         private void web_client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            
-            Update_Status(e.ProgressPercentage.ToString());
+            Update_Status(e.ProgressPercentage.ToString() + "%");
         }
 
         private bool Check_Downloaded_File(string dest_file)
         {
             if (File.Exists(dest_file))
             {
-                Add_Status("Done.");
+                Add_Status("File Verified.");
                 return true;
             }
             else
