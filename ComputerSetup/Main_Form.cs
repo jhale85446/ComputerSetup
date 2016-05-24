@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 using System.Diagnostics;
 using Standard;
 
@@ -39,7 +40,22 @@ namespace ComputerSetup
             string[] lines = Output_box.Lines;
             lines[0] = lines[0] + "  -  " + status;
             Output_box.Lines = lines;
-            //Output_box.Text = Output_box.Text + "  -  " + status;
+        }
+
+        // This function updates the status.
+        // Useful for download indicator
+        private void Update_Status(string status)
+        {
+            string[] lines = Output_box.Lines;
+            if (lines[0].Contains("  -  "))
+            {
+                int dash = lines[0].IndexOf("  -  ");
+                string temp = lines[0].Substring(0, dash);
+                lines[0] = temp + "  -  " + status;
+                Output_box.Lines = lines;
+            }
+            else
+                Add_Status(status);            
         }
 
         private void Add_Cmd_Ouput(string cmd_ouput, string cmd)
@@ -212,6 +228,11 @@ namespace ComputerSetup
                 return File_Copy(CURR_DIR + command[1], command[2]);
             else if (command[0] == "XCOPY")
                 return File_Copy(Parse_External_Path(command[1]), command[2]);
+            else if (command[0] == "DOWNLOAD")
+            {
+                bool result = Download_File(command[1], command[2]);
+                return Check_Downloaded_File(command[2]) && result;
+            }
             else
                 return false;
         }
@@ -222,7 +243,7 @@ namespace ComputerSetup
 
             foreach (object item_checked in Basic_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line(item_checked.ToString());
+                    Output_Line(item_checked.ToString() + " - FAILED!");
 
             Basic_Go.Enabled = true;
         }
@@ -373,6 +394,98 @@ namespace ComputerSetup
             }
         }
 
+        private bool downloadComplete = false;
+
+        private bool Download_File(string source, string dest_file)
+        {
+            Output_Line("Downloading: " + source + " -> " + dest_file);
+            Output_Line("Download Status: ");
+
+            if (!check_download_path(source))
+            {
+                Add_Status("Link Does Not Exist!");
+                return false;
+            }
+            
+            WebClient web_client = new WebClient();
+            web_client.DownloadProgressChanged += web_client_DownloadProgressChanged;
+            web_client.DownloadFileCompleted += web_client_DownloadFileCompleted;
+
+            try
+            {
+                web_client.DownloadFileAsync(new System.Uri(source), dest_file);
+                
+                while (!downloadComplete)
+                {
+                    Application.DoEvents();
+                }
+
+                downloadComplete = false;
+            }
+            catch
+            {
+                Add_Status("Unable to Download!");
+
+                return false;
+            }
+            return true;
+        }
+
+        private bool check_download_path(string source)
+        {
+            HttpWebResponse response = null;
+            var request = (HttpWebRequest)WebRequest.Create(new System.Uri(source));
+            request.Method = "HEAD";
+            bool result = false;
+            
+            try
+            {
+                response = (HttpWebResponse)request.GetResponse();
+            }
+            catch
+            {
+                result = false;
+            }
+            finally
+            {
+                // Don't forget to close your response.
+                if (response != null)
+                {
+                    response.Close();
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private void web_client_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            this.BeginInvoke((MethodInvoker)delegate
+            {
+                Add_Status("Done");
+                downloadComplete = true;
+            });            
+        }
+
+        private void web_client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Update_Status(e.ProgressPercentage.ToString() + "%");
+        }
+
+        private bool Check_Downloaded_File(string dest_file)
+        {
+            if (File.Exists(dest_file))
+            {
+                Add_Status("File Verified.");
+                return true;
+            }
+            else
+            {
+                Add_Status("Download Failed!");
+                return false;
+            }
+        }
+
         private void Post_Box_MouseLeave(object sender, EventArgs e)
         {
             if (Post_Box.CheckedIndices.Count < 1)
@@ -489,7 +602,7 @@ namespace ComputerSetup
 
         private string [] Setup_Text()
         {
-            string[] text = new string[30];
+            string[] text = new string[34];
             text[0] = "# This is a ComputerSetup basic or post setup text file";
             text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
             text[2] = "# The valid commands are:";
@@ -502,24 +615,28 @@ namespace ComputerSetup
             text[9] = "# Usage: COPY;'Source File';'Destination Directory'";
             text[10] = "# Example: COPY;\\Files\\text.txt;C:\\Windows";
             text[11] = "#";
-            text[12] = "# RUN - Run an application with the working directory as a base";
-            text[13] = "# Usage: RUN;'Program'";
-            text[14] = "# Example RUN;\\Files\\putty.exe";
+            text[12] = "# DOWNLOAD - Download a file from a web location";
+            text[13] = "# Usage: DOWNLOAD;http://address:port/filepath;'Local Destination File";
+            text[14] = "# Example DOWNLOAD;http//192.168.1.101/test.txt;C:\\Windows\\test.txt";
             text[15] = "#";
-            text[16] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
-            text[17] = "# Example: XRUN;C:\\Windows\\regedit.exe";
-            text[18] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
-            text[19] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
-            text[20] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
-            text[21] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
-            text[22] = "#";
-            text[23] = "# REG - Add a registry file to the local registry using the working directory as a base";
-            text[24] = "# Usage: REG;'Registry file'";
-            text[25] = "# Example: REG;\\Files\\ODBC.reg";
+            text[16] = "# RUN - Run an application with the working directory as a base";
+            text[17] = "# Usage: RUN;'Program'";
+            text[18] = "# Example RUN;\\Files\\putty.exe";
+            text[19] = "#";
+            text[20] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
+            text[21] = "# Example: XRUN;C:\\Windows\\regedit.exe";
+            text[22] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
+            text[23] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
+            text[24] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
+            text[25] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
             text[26] = "#";
-            text[27] = "# For more information visit the wiki page at:";
-            text[28] = "# https://github.com/jhale85446/ComputerSetup/wiki";
-            text[29] = "#";
+            text[27] = "# REG - Add a registry file to the local registry using the working directory as a base";
+            text[28] = "# Usage: REG;'Registry file'";
+            text[29] = "# Example: REG;\\Files\\ODBC.reg";
+            text[30] = "#";
+            text[31] = "# For more information visit the wiki page at:";
+            text[32] = "# https://github.com/jhale85446/ComputerSetup/wiki";
+            text[33] = "#";
             return text;
         }
     }
