@@ -602,7 +602,7 @@ namespace ComputerSetup
 
         private string [] Setup_Text()
         {
-            string[] text = new string[30];
+            string[] text = new string[34];
             text[0] = "# This is a ComputerSetup basic or post setup text file";
             text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
             text[2] = "# The valid commands are:";
@@ -615,24 +615,28 @@ namespace ComputerSetup
             text[9] = "# Usage: COPY;'Source File';'Destination Directory'";
             text[10] = "# Example: COPY;\\Files\\text.txt;C:\\Windows";
             text[11] = "#";
-            text[12] = "# RUN - Run an application with the working directory as a base";
-            text[13] = "# Usage: RUN;'Program'";
-            text[14] = "# Example RUN;\\Files\\putty.exe";
+            text[12] = "# DOWNLOAD - Download a file from a web location";
+            text[13] = "# Usage: DOWNLOAD;http://address:port/filepath;'Local Destination File";
+            text[14] = "# Example DOWNLOAD;http//192.168.1.101/test.txt;C:\\Windows\\test.txt";
             text[15] = "#";
-            text[16] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
-            text[17] = "# Example: XRUN;C:\\Windows\\regedit.exe";
-            text[18] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
-            text[19] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
-            text[20] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
-            text[21] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
-            text[22] = "#";
-            text[23] = "# REG - Add a registry file to the local registry using the working directory as a base";
-            text[24] = "# Usage: REG;'Registry file'";
-            text[25] = "# Example: REG;\\Files\\ODBC.reg";
+            text[16] = "# RUN - Run an application with the working directory as a base";
+            text[17] = "# Usage: RUN;'Program'";
+            text[18] = "# Example RUN;\\Files\\putty.exe";
+            text[19] = "#";
+            text[20] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
+            text[21] = "# Example: XRUN;C:\\Windows\\regedit.exe";
+            text[22] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
+            text[23] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
+            text[24] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
+            text[25] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
             text[26] = "#";
-            text[27] = "# For more information visit the wiki page at:";
-            text[28] = "# https://github.com/jhale85446/ComputerSetup/wiki";
-            text[29] = "#";
+            text[27] = "# REG - Add a registry file to the local registry using the working directory as a base";
+            text[28] = "# Usage: REG;'Registry file'";
+            text[29] = "# Example: REG;\\Files\\ODBC.reg";
+            text[30] = "#";
+            text[31] = "# For more information visit the wiki page at:";
+            text[32] = "# https://github.com/jhale85446/ComputerSetup/wiki";
+            text[33] = "#";
             return text;
         }
     }
