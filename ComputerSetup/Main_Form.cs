@@ -173,6 +173,12 @@ namespace ComputerSetup
 
         private void Main_Form_Load(object sender, EventArgs e)
         {
+            // Reset All boxes back to default values
+            Basic_Box.Items.Clear();
+            App_Box.Items.Clear();
+            Link_Box.Items.Clear();
+            Post_Box.Items.Clear();
+
             Check_File_System();
             about = new about_form();
             Output_box.Clear();
@@ -516,6 +522,11 @@ namespace ComputerSetup
             }
         }
 
+        private void Refresh_Button_Click(object sender, EventArgs e)
+        {
+            Main_Form_Load(null, null);
+        }
+
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             about.Show();
@@ -638,6 +649,11 @@ namespace ComputerSetup
             text[32] = "# https://github.com/jhale85446/ComputerSetup/wiki";
             text[33] = "#";
             return text;
+        }
+
+        private void Clear_Output_Button_Click(object sender, EventArgs e)
+        {
+            Output_box.ResetText();
         }
     }
 }

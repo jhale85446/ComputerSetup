@@ -35,6 +35,8 @@
             this.Basic_Box = new System.Windows.Forms.CheckedListBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.programToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Basic_Setup_Box = new System.Windows.Forms.GroupBox();
             this.Basic_Go = new System.Windows.Forms.Button();
@@ -52,8 +54,8 @@
             this.Post_Go = new System.Windows.Forms.Button();
             this.Post_Box = new System.Windows.Forms.CheckedListBox();
             this.change_dir_button = new System.Windows.Forms.Button();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.Refresh_Button = new System.Windows.Forms.Button();
+            this.Clear_Output_Button = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.Basic_Setup_Box.SuspendLayout();
             this.App_Install_Box.SuspendLayout();
@@ -64,7 +66,7 @@
             // 
             // Exit_Button
             // 
-            this.Exit_Button.Location = new System.Drawing.Point(837, 558);
+            this.Exit_Button.Location = new System.Drawing.Point(1044, 558);
             this.Exit_Button.Name = "Exit_Button";
             this.Exit_Button.Size = new System.Drawing.Size(103, 31);
             this.Exit_Button.TabIndex = 0;
@@ -117,10 +119,22 @@
             this.programToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
             this.programToolStripMenuItem.Text = "&Program";
             // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(104, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -230,9 +244,9 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.Output_box);
-            this.groupBox1.Location = new System.Drawing.Point(655, 30);
+            this.groupBox1.Location = new System.Drawing.Point(655, 53);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(492, 522);
+            this.groupBox1.Size = new System.Drawing.Size(492, 499);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Output";
@@ -289,23 +303,33 @@
             this.change_dir_button.UseVisualStyleBackColor = true;
             this.change_dir_button.Click += new System.EventHandler(this.change_dir_button_Click);
             // 
-            // aboutToolStripMenuItem
+            // Refresh_Button
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.Refresh_Button.Location = new System.Drawing.Point(655, 25);
+            this.Refresh_Button.Name = "Refresh_Button";
+            this.Refresh_Button.Size = new System.Drawing.Size(80, 23);
+            this.Refresh_Button.TabIndex = 12;
+            this.Refresh_Button.Text = "Refresh";
+            this.Refresh_Button.UseVisualStyleBackColor = true;
+            this.Refresh_Button.Click += new System.EventHandler(this.Refresh_Button_Click);
             // 
-            // toolStripSeparator1
+            // Clear_Output_Button
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.Clear_Output_Button.Location = new System.Drawing.Point(1072, 30);
+            this.Clear_Output_Button.Name = "Clear_Output_Button";
+            this.Clear_Output_Button.Size = new System.Drawing.Size(75, 23);
+            this.Clear_Output_Button.TabIndex = 13;
+            this.Clear_Output_Button.Text = "Clear Output";
+            this.Clear_Output_Button.UseVisualStyleBackColor = true;
+            this.Clear_Output_Button.Click += new System.EventHandler(this.Clear_Output_Button_Click);
             // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1159, 601);
+            this.Controls.Add(this.Clear_Output_Button);
+            this.Controls.Add(this.Refresh_Button);
             this.Controls.Add(this.change_dir_button);
             this.Controls.Add(this.Working_Dir);
             this.Controls.Add(this.label2);
@@ -362,6 +386,8 @@
         private System.Windows.Forms.Button change_dir_button;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Button Refresh_Button;
+        private System.Windows.Forms.Button Clear_Output_Button;
     }
 }
 
