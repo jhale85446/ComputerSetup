@@ -257,25 +257,46 @@ namespace ComputerSetup
                 return false;
         }
 
-        private void Basic_Go_Click(object sender, EventArgs e)
-        {            
+        private void Disable_Buttons()
+        {
             Basic_Go.Enabled = false;
+            App_Go.Enabled = false;
+            Link_Go.Enabled = false;
+            Post_Go.Enabled = false;
+            Refresh_Button.Enabled = false;
+            change_dir_button.Enabled = false;
+            Clear_Output_Button.Enabled = false;
+            Working_Dir.Enabled = false;
+        }
+
+        private void Enable_Buttons()
+        {
+            Refresh_Button.Enabled = true;
+            change_dir_button.Enabled = true;
+            Clear_Output_Button.Enabled = true;
+            Working_Dir.Enabled = true;
+            Refresh_Button_Click(null, null);
+        }
+
+        private void Basic_Go_Click(object sender, EventArgs e)
+        {
+            Disable_Buttons();
 
             foreach (object item_checked in Basic_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
                     Output_Line(item_checked.ToString() + " - FAILED!");
 
-            Basic_Go.Enabled = true;
+            Enable_Buttons();
         }
 
         private void Link_Go_Click(object sender, EventArgs e)
         {
-            Link_Go.Enabled = false;
+            Disable_Buttons();
                       
             foreach (object item_checked in Link_Box.CheckedItems)
                 File_Copy(item_checked.ToString(), PUBLIC_DESKTOP);
-            
-            Link_Go.Enabled = true;
+
+            Enable_Buttons();
         }
 
         private void Link_Box_MouseLeave(object sender, EventArgs e)
@@ -304,12 +325,12 @@ namespace ComputerSetup
 
         private void App_Go_Click(object sender, EventArgs e)
         {
-            App_Go.Enabled = false;
+            Disable_Buttons();
                                    
             foreach (object item_checked in App_Box.CheckedItems)
                 Run_App(item_checked.ToString());
-            
-            App_Go.Enabled = true;
+
+            Enable_Buttons();
         }
 
         private bool Reg_Import(string reg_file)
@@ -370,7 +391,7 @@ namespace ComputerSetup
 
         private bool File_Delete(string path)
         {
-            Output_Line("Deleting: " + Path.GetFileName(path));
+            Output_Line("Deleting: " + path);
             if (File.Exists(path))
             {
                 try
@@ -557,13 +578,13 @@ namespace ComputerSetup
 
         private void Post_Go_Click(object sender, EventArgs e)
         {
-            Post_Go.Enabled = false;
+            Disable_Buttons();
 
             foreach (object item_checked in Post_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line(item_checked.ToString());
+                    Output_Line(item_checked.ToString() + " - FAILED!");
 
-            Post_Go.Enabled = true;
+            Enable_Buttons();
         }
 
         private void change_dir_button_Click(object sender, EventArgs e)
@@ -579,7 +600,20 @@ namespace ComputerSetup
 
         private void Refresh_Button_Click(object sender, EventArgs e)
         {
-            Main_Form_Load(null, null);
+            // Reset All boxes back to default values
+            Basic_Box.Items.Clear();
+            App_Box.Items.Clear();
+            Link_Box.Items.Clear();
+            Post_Box.Items.Clear();
+
+            Check_File_System();
+            about = new about_form();
+            desktop_path_box.Text = PUBLIC_DESKTOP;
+            Working_Dir.Text = CURR_DIR;
+            Pop_Basic();
+            Pop_Links();
+            Pop_Apps();
+            Pop_Post();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
