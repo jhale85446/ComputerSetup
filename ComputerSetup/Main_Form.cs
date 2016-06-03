@@ -20,7 +20,7 @@ namespace ComputerSetup
         string CURR_DIR = Directory.GetCurrentDirectory();
         string CURR_DIR_ROOT = Path.GetPathRoot(Directory.GetCurrentDirectory());
         string LINK_PATH = "\\Links";
-        string APP_PATH = "\\Applications";
+        string APP_PATH = "\\Apps";
         string FILES_PATH = "\\Files";
         string BASIC_FILENAME = "basic_setup.txt";
         string POST_FILENAME = "post_setup.txt";
@@ -214,6 +214,16 @@ namespace ComputerSetup
                 return(CURR_DIR_ROOT.TrimEnd('\\') + part_path);
             }
 
+            else if (input.Contains("&WORKPATH&"))
+            {
+                part_path = input.Substring((input.LastIndexOf('&') + 1), (input.Length - (input.LastIndexOf('&') + 1)));
+
+                if (!part_path.StartsWith("\\"))
+                    part_path = "\\" + part_path;
+
+                return (CURR_DIR.TrimEnd('\\') + part_path);
+            }
+
             else
                 return input;
         }
@@ -234,34 +244,59 @@ namespace ComputerSetup
                 return File_Copy(CURR_DIR + command[1], command[2]);
             else if (command[0] == "XCOPY")
                 return File_Copy(Parse_External_Path(command[1]), command[2]);
-            else if (command[0] == "DOWNLOAD")
+            else if (command[0] == "RM")
+                return File_Delete(command[1]);
+            else if (command[0] == "XRM")
+                return File_Delete(Parse_External_Path(command[1]));
+            else if (command[0] == "WGET")
             {
-                bool result = Download_File(command[1], command[2]);
-                return Check_Downloaded_File(command[2]) && result;
+                bool result = Download_File(command[1], Parse_External_Path(command[2]));
+                return Check_Downloaded_File(Parse_External_Path(command[2])) && result;
             }
             else
                 return false;
         }
 
-        private void Basic_Go_Click(object sender, EventArgs e)
-        {            
+        private void Disable_Buttons()
+        {
             Basic_Go.Enabled = false;
+            App_Go.Enabled = false;
+            Link_Go.Enabled = false;
+            Post_Go.Enabled = false;
+            Refresh_Button.Enabled = false;
+            change_dir_button.Enabled = false;
+            Clear_Output_Button.Enabled = false;
+            Working_Dir.Enabled = false;
+        }
+
+        private void Enable_Buttons()
+        {
+            Refresh_Button.Enabled = true;
+            change_dir_button.Enabled = true;
+            Clear_Output_Button.Enabled = true;
+            Working_Dir.Enabled = true;
+            Refresh_Button_Click(null, null);
+        }
+
+        private void Basic_Go_Click(object sender, EventArgs e)
+        {
+            Disable_Buttons();
 
             foreach (object item_checked in Basic_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
                     Output_Line(item_checked.ToString() + " - FAILED!");
 
-            Basic_Go.Enabled = true;
+            Enable_Buttons();
         }
 
         private void Link_Go_Click(object sender, EventArgs e)
         {
-            Link_Go.Enabled = false;
+            Disable_Buttons();
                       
             foreach (object item_checked in Link_Box.CheckedItems)
                 File_Copy(item_checked.ToString(), PUBLIC_DESKTOP);
-            
-            Link_Go.Enabled = true;
+
+            Enable_Buttons();
         }
 
         private void Link_Box_MouseLeave(object sender, EventArgs e)
@@ -290,12 +325,12 @@ namespace ComputerSetup
 
         private void App_Go_Click(object sender, EventArgs e)
         {
-            App_Go.Enabled = false;
+            Disable_Buttons();
                                    
             foreach (object item_checked in App_Box.CheckedItems)
                 Run_App(item_checked.ToString());
-            
-            App_Go.Enabled = true;
+
+            Enable_Buttons();
         }
 
         private bool Reg_Import(string reg_file)
@@ -329,14 +364,55 @@ namespace ComputerSetup
                 {
                     File.Copy(source, Path.Combine(dest_dir, Path.GetFileName(source)));
                     if (File.Exists(Path.Combine(dest_dir, Path.GetFileName(source))))
+                    {
                         Add_Status("Done.");
+                        return true;
+                    }
+                    else
+                    {
+                        Add_Status("Unable to copy!");
+                        return false;
+                    }
+                        
                 }
                 catch
                 {
                     Add_Status("Unable to copy!");
                     return false;
                 }
-                return true;
+                
+            }
+            else
+            {
+                Add_Status("File Not Found!");
+                return false;
+            }
+        }
+
+        private bool File_Delete(string path)
+        {
+            Output_Line("Deleting: " + path);
+            if (File.Exists(path))
+            {
+                try
+                {
+                    File.Delete(path);
+                    if (!File.Exists(path))
+                    {
+                        Add_Status("Done.");
+                        return true;
+                    }
+                    else
+                    {
+                        Add_Status("Unable to Delete!");
+                        return false;
+                    }
+                }
+                catch
+                {
+                    Add_Status("Unable to Delete!");
+                    return false;
+                }
             }
             else
             {
@@ -502,13 +578,13 @@ namespace ComputerSetup
 
         private void Post_Go_Click(object sender, EventArgs e)
         {
-            Post_Go.Enabled = false;
+            Disable_Buttons();
 
             foreach (object item_checked in Post_Box.CheckedItems)
                 if (!Run_Encoded_Command(item_checked.ToString()))
-                    Output_Line(item_checked.ToString());
+                    Output_Line(item_checked.ToString() + " - FAILED!");
 
-            Post_Go.Enabled = true;
+            Enable_Buttons();
         }
 
         private void change_dir_button_Click(object sender, EventArgs e)
@@ -524,7 +600,20 @@ namespace ComputerSetup
 
         private void Refresh_Button_Click(object sender, EventArgs e)
         {
-            Main_Form_Load(null, null);
+            // Reset All boxes back to default values
+            Basic_Box.Items.Clear();
+            App_Box.Items.Clear();
+            Link_Box.Items.Clear();
+            Post_Box.Items.Clear();
+
+            Check_File_System();
+            about = new about_form();
+            desktop_path_box.Text = PUBLIC_DESKTOP;
+            Working_Dir.Text = CURR_DIR;
+            Pop_Basic();
+            Pop_Links();
+            Pop_Apps();
+            Pop_Post();
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -537,7 +626,7 @@ namespace ComputerSetup
         {
             if (!Directory.Exists(CURR_DIR + APP_PATH))
             {
-                if (Standard.Procedures.question_box_yes_no("Application Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (Standard.Procedures.question_box_yes_no("Apps Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -545,7 +634,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create Application directory!");
+                        Standard.Procedures.error_box("Unable to create Apps directory!");
                     }
                 }
             }
@@ -613,41 +702,38 @@ namespace ComputerSetup
 
         private string [] Setup_Text()
         {
-            string[] text = new string[34];
+            string[] text = new string[31];
             text[0] = "# This is a ComputerSetup basic or post setup text file";
             text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
             text[2] = "# The valid commands are:";
             text[3] = "#";
             text[4] = "# CMD - Run a command through Windows command shell";
-            text[5] = "# Usage: CMD;'System Command'";
-            text[6] = "# Example: CMD;ipconfig";
-            text[7] = "#";
-            text[8] = "# COPY - Copy a file with the working directory as a base";
-            text[9] = "# Usage: COPY;'Source File';'Destination Directory'";
-            text[10] = "# Example: COPY;\\Files\\text.txt;C:\\Windows";
-            text[11] = "#";
-            text[12] = "# DOWNLOAD - Download a file from a web location";
-            text[13] = "# Usage: DOWNLOAD;http://address:port/filepath;'Local Destination File";
-            text[14] = "# Example DOWNLOAD;http//192.168.1.101/test.txt;C:\\Windows\\test.txt";
+            text[5] = "# Usage: CMD;'System Command'        Example: CMD;ipconfig";
+            text[6] = "#";
+            text[7] = "# COPY - Copy a file with the working directory as a base.";
+            text[8] = "# Usage: COPY;'Source File';'Destination Directory'        Example: COPY;\\Files\\text.txt;C:\\Windows";
+            text[9] = "#";
+            text[10] = "# WGET - Download a file from a web location";
+            text[11] = "# Usage: WGET;http://address:port/filepath;'Local Destination File        Example WGET;http//192.168.1.101/test.txt;C:\\Windows\\test.txt";
+            text[12] = "#";
+            text[13] = "# RUN - Run an application with the working directory as a base";
+            text[14] = "# Usage: RUN;'Program'        Example: RUN;\\Files\\putty.exe";
             text[15] = "#";
-            text[16] = "# RUN - Run an application with the working directory as a base";
-            text[17] = "# Usage: RUN;'Program'";
-            text[18] = "# Example RUN;\\Files\\putty.exe";
-            text[19] = "#";
-            text[20] = "# XRUN and XCOPY - Same as RUN and COPY but using external file paths";
-            text[21] = "# Example: XRUN;C:\\Windows\\regedit.exe";
-            text[22] = "# Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc";
-            text[23] = "# In XRUN and XCOPY, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
-            text[24] = "# Example: XRUN;&WORKDRIVE&\\SetupFiles\\setup.exe";
-            text[25] = "# If the root working directory drive is E: the path above is E:\\SetupFiles\\setup.exe";
-            text[26] = "#";
-            text[27] = "# REG - Add a registry file to the local registry using the working directory as a base";
-            text[28] = "# Usage: REG;'Registry file'";
-            text[29] = "# Example: REG;\\Files\\ODBC.reg";
+            text[16] = "# RM - Delete a file with the working directory as a base.";
+            text[17] = "# Usage: RM;'file path and name'        Example: RM;\\Files\\putty.exe";
+            text[18] = "#";
+            text[19] = "# XRUN, XCOPY, and XRM - Same as RUN, COPY, and RM but using external file paths";
+            text[20] = "# Example: XRUN;C:\\Windows\\regedit.exe    Example: XCOPY;E:\\hosts;C:\\Windows\\System32\\drivers\\etc    Example: RM;C:\\Windows\\putty.exe";
+            text[21] = "#";
+            text[22] = "# In XRUN, XCOPY, XRM, and WGET, You can use &WORKDRIVE& as a pointer to the root drive of the working directory.";
+            text[23] = "# Example: XRUN;&WORKDRIVE&\\Files\\setup.exe       If the root working directory drive is E: the path above is E:\\Files\\setup.exe";
+            text[24] = "# You can also use &WORKPATH& as a pointer to the current working directory";
+            text[25] = "#";
+            text[26] = "# REG - Add a registry file to the local registry using the working directory as a base";
+            text[27] = "# Usage: REG;'Registry file'        Example: REG;\\Files\\ODBC.reg";
+            text[28] = "#";
+            text[29] = "# For more information visit the wiki page at: https://github.com/jhale85446/ComputerSetup/wiki";
             text[30] = "#";
-            text[31] = "# For more information visit the wiki page at:";
-            text[32] = "# https://github.com/jhale85446/ComputerSetup/wiki";
-            text[33] = "#";
             return text;
         }
 
