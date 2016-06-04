@@ -267,6 +267,8 @@ namespace ComputerSetup
             change_dir_button.Enabled = false;
             Clear_Output_Button.Enabled = false;
             Working_Dir.Enabled = false;
+            Basic_Edit_Button.Enabled = false;
+            Post_Edit_Button.Enabled = false;
         }
 
         private void Enable_Buttons()
@@ -275,6 +277,8 @@ namespace ComputerSetup
             change_dir_button.Enabled = true;
             Clear_Output_Button.Enabled = true;
             Working_Dir.Enabled = true;
+            Basic_Edit_Button.Enabled = true;
+            Post_Edit_Button.Enabled = true;
             Refresh_Button_Click(null, null);
         }
 
@@ -751,6 +755,7 @@ namespace ComputerSetup
                 try
                 {
                     Run_App(path);
+                    Refresh_Button_Click(null, null);
                 }
                 catch
                 {
@@ -768,6 +773,7 @@ namespace ComputerSetup
                 try
                 {
                     Run_App(path);
+                    Refresh_Button_Click(null, null);
                 }
                 catch
                 {
