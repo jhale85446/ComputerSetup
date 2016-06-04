@@ -56,6 +56,8 @@
             this.change_dir_button = new System.Windows.Forms.Button();
             this.Refresh_Button = new System.Windows.Forms.Button();
             this.Clear_Output_Button = new System.Windows.Forms.Button();
+            this.Basic_Edit_Button = new System.Windows.Forms.Button();
+            this.Post_Edit_Button = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.Basic_Setup_Box.SuspendLayout();
             this.App_Install_Box.SuspendLayout();
@@ -140,6 +142,7 @@
             // 
             // Basic_Setup_Box
             // 
+            this.Basic_Setup_Box.Controls.Add(this.Basic_Edit_Button);
             this.Basic_Setup_Box.Controls.Add(this.Basic_Go);
             this.Basic_Setup_Box.Controls.Add(this.Basic_Box);
             this.Basic_Setup_Box.Location = new System.Drawing.Point(12, 53);
@@ -265,11 +268,12 @@
             // 
             // Post_Group_Box
             // 
+            this.Post_Group_Box.Controls.Add(this.Post_Edit_Button);
             this.Post_Group_Box.Controls.Add(this.Post_Go);
             this.Post_Group_Box.Controls.Add(this.Post_Box);
             this.Post_Group_Box.Location = new System.Drawing.Point(12, 468);
             this.Post_Group_Box.Name = "Post_Group_Box";
-            this.Post_Group_Box.Size = new System.Drawing.Size(631, 121);
+            this.Post_Group_Box.Size = new System.Drawing.Size(637, 121);
             this.Post_Group_Box.TabIndex = 10;
             this.Post_Group_Box.TabStop = false;
             this.Post_Group_Box.Text = "Post Setup Operations";
@@ -278,7 +282,7 @@
             // 
             this.Post_Go.Location = new System.Drawing.Point(516, 17);
             this.Post_Go.Name = "Post_Go";
-            this.Post_Go.Size = new System.Drawing.Size(109, 51);
+            this.Post_Go.Size = new System.Drawing.Size(115, 51);
             this.Post_Go.TabIndex = 1;
             this.Post_Go.Text = "Go!";
             this.Post_Go.UseVisualStyleBackColor = true;
@@ -322,6 +326,26 @@
             this.Clear_Output_Button.Text = "Clear Output";
             this.Clear_Output_Button.UseVisualStyleBackColor = true;
             this.Clear_Output_Button.Click += new System.EventHandler(this.Clear_Output_Button_Click);
+            // 
+            // Basic_Edit_Button
+            // 
+            this.Basic_Edit_Button.Location = new System.Drawing.Point(516, 79);
+            this.Basic_Edit_Button.Name = "Basic_Edit_Button";
+            this.Basic_Edit_Button.Size = new System.Drawing.Size(115, 34);
+            this.Basic_Edit_Button.TabIndex = 5;
+            this.Basic_Edit_Button.Text = "Edit Basic Setup";
+            this.Basic_Edit_Button.UseVisualStyleBackColor = true;
+            this.Basic_Edit_Button.Click += new System.EventHandler(this.Basic_Edit_Button_Click);
+            // 
+            // Post_Edit_Button
+            // 
+            this.Post_Edit_Button.Location = new System.Drawing.Point(516, 71);
+            this.Post_Edit_Button.Name = "Post_Edit_Button";
+            this.Post_Edit_Button.Size = new System.Drawing.Size(115, 40);
+            this.Post_Edit_Button.TabIndex = 2;
+            this.Post_Edit_Button.Text = "Edit Post Setup";
+            this.Post_Edit_Button.UseVisualStyleBackColor = true;
+            this.Post_Edit_Button.Click += new System.EventHandler(this.Post_Edit_Button_Click);
             // 
             // Main_Form
             // 
@@ -388,6 +412,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Button Refresh_Button;
         private System.Windows.Forms.Button Clear_Output_Button;
+        private System.Windows.Forms.Button Basic_Edit_Button;
+        private System.Windows.Forms.Button Post_Edit_Button;
     }
 }
 
