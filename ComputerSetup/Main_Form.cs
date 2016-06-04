@@ -741,5 +741,39 @@ namespace ComputerSetup
         {
             Output_box.ResetText();
         }
+
+        private void Basic_Edit_Button_Click(object sender, EventArgs e)
+        {
+            string path = Path.Combine(CURR_DIR, BASIC_FILENAME);
+
+            if (File.Exists(path))
+            {
+                try
+                {
+                    Run_App(path);
+                }
+                catch
+                {
+                    Standard.Procedures.error_box("Unable to edit Basic Setup!");
+                }
+            }
+        }
+
+        private void Post_Edit_Button_Click(object sender, EventArgs e)
+        {
+            string path = Path.Combine(CURR_DIR, POST_FILENAME);
+
+            if (File.Exists(path))
+            {
+                try
+                {
+                    Run_App(path);
+                }
+                catch
+                {
+                    Standard.Procedures.error_box("Unable to edit Post Setup!");
+                }
+            }
+        }
     }
 }
