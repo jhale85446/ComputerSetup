@@ -232,6 +232,11 @@ namespace ComputerSetup
         {
             string[] command;
             command = Parse_Command(input);
+            int len = command.Length;
+
+            if (len < 2)
+                return false;
+
             if (command[0] == "CMD")
                 return Run_Cmd(command[1]);
             else if (command[0] == "RUN")
@@ -240,16 +245,29 @@ namespace ComputerSetup
                 return Run_App(Parse_External_Path(command[1]));
             else if (command[0] == "REG")
                 return Reg_Import(CURR_DIR + command[1]);
-            else if (command[0] == "COPY")
-                return File_Copy(CURR_DIR + command[1], command[2]);
-            else if (command[0] == "XCOPY")
-                return File_Copy(Parse_External_Path(command[1]), command[2]);
             else if (command[0] == "RM")
                 return File_Delete(command[1]);
             else if (command[0] == "XRM")
                 return File_Delete(Parse_External_Path(command[1]));
+            else if (command[0] == "COPY")
+            {
+                if (len < 3)
+                    return false;
+
+                return File_Copy(CURR_DIR + command[1], command[2]);
+            }
+            else if (command[0] == "XCOPY")
+            {
+                if (len < 3)
+                    return false;
+
+                return File_Copy(Parse_External_Path(command[1]), command[2]);
+            }
             else if (command[0] == "WGET")
             {
+                if (len < 3)
+                    return false;
+
                 bool result = Download_File(command[1], Parse_External_Path(command[2]));
                 return Check_Downloaded_File(Parse_External_Path(command[2])) && result;
             }
@@ -709,7 +727,7 @@ namespace ComputerSetup
             string[] text = new string[31];
             text[0] = "# This is a ComputerSetup basic or post setup text file";
             text[1] = "# Do not use empy lines in this file. Use '#' for comments or blank lines.";
-            text[2] = "# The valid commands are:";
+            text[2] = "# Use a \";\" between arguments.";
             text[3] = "#";
             text[4] = "# CMD - Run a command through Windows command shell";
             text[5] = "# Usage: CMD;'System Command'        Example: CMD;ipconfig";
