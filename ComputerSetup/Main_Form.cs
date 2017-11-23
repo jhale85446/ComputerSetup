@@ -656,7 +656,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create Apps directory!");
+                        Standard.Procedures.Error_Box("Unable to create Apps directory!");
                     }
                 }
             }
@@ -671,7 +671,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create Links directory!");
+                        Standard.Procedures.Error_Box("Unable to create Links directory!");
                     }
                 }
             }
@@ -686,7 +686,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create Files directory!");
+                        Standard.Procedures.Error_Box("Unable to create Files directory!");
                     }
                 }
             }
@@ -701,7 +701,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create basic_setup.txt!");
+                        Standard.Procedures.Error_Box("Unable to create basic_setup.txt!");
                     }
                 }
             }
@@ -716,7 +716,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.error_box("Unable to create post_setup.txt!");
+                        Standard.Procedures.Error_Box("Unable to create post_setup.txt!");
                     }
                 }
             }
@@ -777,7 +777,7 @@ namespace ComputerSetup
                 }
                 catch
                 {
-                    Standard.Procedures.error_box("Unable to edit Basic Setup!");
+                    Standard.Procedures.Error_Box("Unable to edit Basic Setup!");
                 }
             }
         }
@@ -795,7 +795,7 @@ namespace ComputerSetup
                 }
                 catch
                 {
-                    Standard.Procedures.error_box("Unable to edit Post Setup!");
+                    Standard.Procedures.Error_Box("Unable to edit Post Setup!");
                 }
             }
         }

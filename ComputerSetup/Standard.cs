@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -18,7 +15,7 @@ namespace Standard
         /// Displays an Error box with the provided message.
         /// </summary>
         /// <param name="message">Message to be displayed</param>
-        internal static void error_box(string message)
+        internal static void Error_Box(string message)
         {
             String caption = "Error";
             MessageBoxButtons buttons = MessageBoxButtons.OK;
@@ -33,7 +30,7 @@ namespace Standard
         /// </summary>
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the message box</param>
-        internal static void msg_box(string message, string caption)
+        internal static void Msg_Box(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.OK;
             MessageBoxIcon icon = MessageBoxIcon.Information;
@@ -48,7 +45,7 @@ namespace Standard
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the Question box</param>
         /// <returns>yes = true, no = false</returns>
-        internal static bool question_box_yes_no(string message, string caption)
+        internal static bool Question_Box_Yes_No(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             MessageBoxIcon icon = MessageBoxIcon.Question;
@@ -68,7 +65,7 @@ namespace Standard
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the Question box</param>
         /// <returns>ok = true, cancel = false</returns>
-        internal static bool question_box_ok_cancel(string message, string caption)
+        internal static bool Question_Box_Ok_Cancel(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
@@ -88,7 +85,7 @@ namespace Standard
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the Question box</param>
         /// <returns>retry = true, cancel = false</returns>
-        internal static bool question_box_retry_cancel(string message, string caption)
+        internal static bool Question_Box_Retry_Cancel(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.RetryCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
@@ -108,7 +105,7 @@ namespace Standard
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the Question box</param>
         /// <returns>Abort = 0, Retry = 1, Ignore = 2</returns>
-        internal static int question_box_abort_retry_ignore(string message, string caption)
+        internal static int Question_Box_Abort_Retry_Ignore(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.AbortRetryIgnore;
             MessageBoxIcon icon = MessageBoxIcon.Question;
@@ -130,7 +127,7 @@ namespace Standard
         /// <param name="message">Message to be displayed</param>
         /// <param name="caption">Caption for the Question box</param>
         /// <returns>Abort = 0, Retry = 1, Ignore = 2</returns>
-        internal static int question_box_yes_no_cancel(string message, string caption)
+        internal static int Question_Box_Yes_No_Cancel(string message, string caption)
         {
             MessageBoxButtons buttons = MessageBoxButtons.YesNoCancel;
             MessageBoxIcon icon = MessageBoxIcon.Question;
@@ -152,7 +149,7 @@ namespace Standard
         /// <param name="path">Out string for the path selected.</param>
         /// <param name="message">Message to be displayed on the path selection box.</param>
         /// <returns>True if selected path exists. False if cancel is clicked or path does not exist.</returns>
-        internal static bool path_box(out string path, string message)
+        internal static bool Path_Box(out string path, string message)
         {
             FolderBrowserDialog folder = new FolderBrowserDialog();
             folder.Description = message;
@@ -176,7 +173,7 @@ namespace Standard
         /// <param name="path">Out string for the full path with filename.</param>
         /// <param name="message">Message to be displayed in on the box.</param>
         /// <returns>True if the file exists. False if not or cancel.</returns>
-        internal static bool open_file_box(out string path, string message)
+        internal static bool Open_File_Box(out string path, string message)
         {
             OpenFileDialog open_file_dialog = new OpenFileDialog();
             open_file_dialog.Title = message;
@@ -201,7 +198,7 @@ namespace Standard
         /// <param name="message">Message to be displayed in on the box.</param>
         /// <param name="filter">File type filter to be used.</param>
         /// <returns>True if the file exists. False if not or cancel.</returns>
-        internal static bool open_file_box(out string path, string message, string filter)
+        internal static bool Open_File_Box(out string path, string message, string filter)
         {
             OpenFileDialog open_file_dialog = new OpenFileDialog();
             open_file_dialog.Title = message;
@@ -228,7 +225,7 @@ namespace Standard
         /// <param name="filter">File type filter to be used.</param>
         /// <param name="form">Form for the box to be assocated with.</param>
         /// <returns>True if the file exists. False if not or cancel.</returns>
-        internal static bool open_file_box(out string path, string message, string filter, IWin32Window form)
+        internal static bool Open_File_Box(out string path, string message, string filter, IWin32Window form)
         {
             OpenFileDialog open_file_dialog = new OpenFileDialog();
             open_file_dialog.Title = message;
@@ -253,7 +250,7 @@ namespace Standard
         /// <param name="path">Out string for the full path with filename.</param>
         /// <param name="message">Message to be displayed in on the box.</param>
         /// <returns>True if the files exists. False if not or cancel.</returns>
-        internal static bool open_files_box(out string[] path, string message)
+        internal static bool Open_Files_Box(out string[] path, string message)
         {
             string[] empty = new string[1] { "" };
             OpenFileDialog open_file_dialog = new OpenFileDialog();
@@ -280,7 +277,7 @@ namespace Standard
         /// <param name="message">Message to be displayed in on the box.</param>
         /// <param name="filter">File type filter to be used.</param>
         /// <returns>True if the files exists. False if not or cancel.</returns>
-        internal static bool open_files_box(out string[] path, string message, string filter)
+        internal static bool Open_Files_Box(out string[] path, string message, string filter)
         {
             string[] empty = new string[1] { "" };
             OpenFileDialog open_file_dialog = new OpenFileDialog();
@@ -309,7 +306,7 @@ namespace Standard
         /// <param name="filter">File type filter to be used.</param>
         /// <param name="form">Form to assocate this box with.</param>
         /// <returns>True if the files exists. False if not or cancel.</returns>
-        internal static bool open_files_box(out string[] path, string message, string filter, IWin32Window form)
+        internal static bool Open_Files_Box(out string[] path, string message, string filter, IWin32Window form)
         {
             string[] empty = new string[1] { "" };
             OpenFileDialog open_file_dialog = new OpenFileDialog();
@@ -336,7 +333,7 @@ namespace Standard
         /// <param name="path">Out string of the path selected.</param>
         /// <param name="message">Message to be displayed.</param>
         /// <returns>True if file selected, false if not.</returns>
-        internal static bool save_file_box(out string path, string message)
+        internal static bool Save_File_Box(out string path, string message)
         {
             SaveFileDialog save_file_dialog = new SaveFileDialog();
             save_file_dialog.Title = message;
@@ -360,7 +357,7 @@ namespace Standard
         /// <param name="message">Message to be displayed.</param>
         /// <param name="filter">File type filter.</param>
         /// <returns>True if file selected, false if not.</returns>
-        internal static bool save_file_box(out string path, string message, string filter)
+        internal static bool Save_File_Box(out string path, string message, string filter)
         {
             SaveFileDialog save_file_dialog = new SaveFileDialog();
             save_file_dialog.Title = message;
@@ -386,7 +383,7 @@ namespace Standard
         /// <param name="filter">File type filter.</param>
         /// <param name="form">Form to assocate the box with.</param>
         /// <returns>True if file selected, false if not.</returns>
-        internal static bool save_file_box(out string path, string message, string filter, IWin32Window form)
+        internal static bool Save_File_Box(out string path, string message, string filter, IWin32Window form)
         {
             SaveFileDialog save_file_dialog = new SaveFileDialog();
             save_file_dialog.Title = message;
@@ -410,7 +407,7 @@ namespace Standard
         /// <param name="filetypes">Array of file types.</param>
         /// <param name="extensions">Array of file extensions</param>
         /// <returns>Filter for use in File Open/Save boxes.</returns>
-        internal static string filter_builder(string [] filetypes, string [] extensions)
+        internal static string Filter_Builder(string[] filetypes, string[] extensions)
         {
             if (filetypes.GetLength(0) != extensions.GetLength(0))
                 throw new ArgumentNullException("Argument miss match.");           
