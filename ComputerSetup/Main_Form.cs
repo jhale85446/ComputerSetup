@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
@@ -612,7 +606,7 @@ namespace ComputerSetup
         private void change_dir_button_Click(object sender, EventArgs e)
         {
             string new_path;
-            if (Standard.Procedures.path_box(out new_path, "Select New Working Directory"))
+            if (Standard.Procedures.Path_Box(out new_path, "Select New Working Directory"))
             {
                 CURR_DIR = new_path;
                 CURR_DIR_ROOT = Path.GetPathRoot(CURR_DIR);
@@ -648,7 +642,7 @@ namespace ComputerSetup
         {
             if (!Directory.Exists(CURR_DIR + APP_PATH))
             {
-                if (Standard.Procedures.question_box_yes_no("Apps Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (Standard.Procedures.Question_Box_Yes_No("Apps Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -663,7 +657,7 @@ namespace ComputerSetup
 
             if (!Directory.Exists(CURR_DIR + LINK_PATH))
             {
-                if (Standard.Procedures.question_box_yes_no("Links Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (Standard.Procedures.Question_Box_Yes_No("Links Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -678,7 +672,7 @@ namespace ComputerSetup
 
             if (!Directory.Exists(CURR_DIR + FILES_PATH))
             {
-                if (Standard.Procedures.question_box_yes_no("Files Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (Standard.Procedures.Question_Box_Yes_No("Files Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -693,7 +687,7 @@ namespace ComputerSetup
 
             if (!File.Exists(Path.Combine(CURR_DIR, BASIC_FILENAME)))
             {
-                if (Standard.Procedures.question_box_yes_no("basic_setup.txt is missing. Shall I Make One?", "Missing File"))
+                if (Standard.Procedures.Question_Box_Yes_No("basic_setup.txt is missing. Shall I Make One?", "Missing File"))
                 {
                     try
                     {
@@ -708,7 +702,7 @@ namespace ComputerSetup
 
             if (!File.Exists(Path.Combine(CURR_DIR, POST_FILENAME)))
             {
-                if (Standard.Procedures.question_box_yes_no("post_setup.txt is missing. Shall I Make One?", "Missing file"))
+                if (Standard.Procedures.Question_Box_Yes_No("post_setup.txt is missing. Shall I Make One?", "Missing file"))
                 {
                     try
                     {
