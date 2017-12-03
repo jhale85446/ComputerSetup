@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
-using Standard;
+using StandardLibrary;
 
 namespace ComputerSetup
 {
@@ -606,7 +606,7 @@ namespace ComputerSetup
         private void change_dir_button_Click(object sender, EventArgs e)
         {
             string new_path;
-            if (Standard.Procedures.Path_Box(out new_path, "Select New Working Directory"))
+            if (StandardClass.Path_Box(out new_path, "Select New Working Directory"))
             {
                 CURR_DIR = new_path;
                 CURR_DIR_ROOT = Path.GetPathRoot(CURR_DIR);
@@ -642,7 +642,7 @@ namespace ComputerSetup
         {
             if (!Directory.Exists(CURR_DIR + APP_PATH))
             {
-                if (Standard.Procedures.Question_Box_Yes_No("Apps Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (StandardClass.Question_Box_Yes_No("Apps Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -650,14 +650,14 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.Error_Box("Unable to create Apps directory!");
+                        StandardClass.Error_Box("Unable to create Apps directory!");
                     }
                 }
             }
 
             if (!Directory.Exists(CURR_DIR + LINK_PATH))
             {
-                if (Standard.Procedures.Question_Box_Yes_No("Links Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (StandardClass.Question_Box_Yes_No("Links Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -665,14 +665,14 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.Error_Box("Unable to create Links directory!");
+                        StandardClass.Error_Box("Unable to create Links directory!");
                     }
                 }
             }
 
             if (!Directory.Exists(CURR_DIR + FILES_PATH))
             {
-                if (Standard.Procedures.Question_Box_Yes_No("Files Directory Missing. Shall I Make One?", "Missing Directory"))
+                if (StandardClass.Question_Box_Yes_No("Files Directory Missing. Shall I Make One?", "Missing Directory"))
                 {
                     try
                     {
@@ -680,14 +680,14 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.Error_Box("Unable to create Files directory!");
+                        StandardClass.Error_Box("Unable to create Files directory!");
                     }
                 }
             }
 
             if (!File.Exists(Path.Combine(CURR_DIR, BASIC_FILENAME)))
             {
-                if (Standard.Procedures.Question_Box_Yes_No("basic_setup.txt is missing. Shall I Make One?", "Missing File"))
+                if (StandardClass.Question_Box_Yes_No("basic_setup.txt is missing. Shall I Make One?", "Missing File"))
                 {
                     try
                     {
@@ -695,14 +695,14 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.Error_Box("Unable to create basic_setup.txt!");
+                        StandardClass.Error_Box("Unable to create basic_setup.txt!");
                     }
                 }
             }
 
             if (!File.Exists(Path.Combine(CURR_DIR, POST_FILENAME)))
             {
-                if (Standard.Procedures.Question_Box_Yes_No("post_setup.txt is missing. Shall I Make One?", "Missing file"))
+                if (StandardClass.Question_Box_Yes_No("post_setup.txt is missing. Shall I Make One?", "Missing file"))
                 {
                     try
                     {
@@ -710,7 +710,7 @@ namespace ComputerSetup
                     }
                     catch
                     {
-                        Standard.Procedures.Error_Box("Unable to create post_setup.txt!");
+                        StandardClass.Error_Box("Unable to create post_setup.txt!");
                     }
                 }
             }
@@ -771,7 +771,7 @@ namespace ComputerSetup
                 }
                 catch
                 {
-                    Standard.Procedures.Error_Box("Unable to edit Basic Setup!");
+                    StandardClass.Error_Box("Unable to edit Basic Setup!");
                 }
             }
         }
@@ -789,7 +789,7 @@ namespace ComputerSetup
                 }
                 catch
                 {
-                    Standard.Procedures.Error_Box("Unable to edit Post Setup!");
+                    StandardClass.Error_Box("Unable to edit Post Setup!");
                 }
             }
         }
